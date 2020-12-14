@@ -1,0 +1,4317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>Farmer</name></assembly>
+<members>
+<member name="M:Builders.Result`2.get_OkValue``2(Microsoft.FSharp.Core.FSharpResult{``0,``1})">
+<summary>
+ Unsafely unwraps the Success value out of the Result.
+</summary>
+</member>
+<member name="T:Farmer.SecretValue">
+<summary>
+ Represents a secret to be captured either via an ARM expression or a secure parameter.
+</summary>
+</member>
+<member name="T:Farmer.PrincipalId">
+<summary>
+ A Principal ID represents an Identity, typically either a system or user generated Identity.
+</summary>
+</member>
+<member name="T:Farmer.FeatureFlag">
+<summary>
+ Whether a specific feature is active or not.
+</summary>
+</member>
+<member name="T:Farmer.ResourceRef`1">
+<summary>
+ A reference to another Azure resource that may or may not be created by Farmer.
+</summary>
+</member>
+<member name="T:Farmer.ExternalKind.Unmanaged">
+<summary>
+ A Resource Id that is created externally from Farmer and already exists in Azure.
+</summary>
+</member>
+<member name="T:Farmer.ExternalKind.Managed">
+<summary>
+ The name of the resource that will be created by Farmer, but is explicitly linked by the user.
+</summary>
+</member>
+<member name="T:Farmer.ExternalKind">
+<summary>
+ A related resource that is created externally to this Farmer resource.
+</summary>
+</member>
+<member name="T:Farmer.AutoCreationKind`1.Derived">
+<summary>
+ A resource that will automatically be created by Farmer with a name that is derived based on the configuration.
+</summary>
+</member>
+<member name="T:Farmer.AutoCreationKind`1.Named">
+<summary>
+ A resource that will automatically be created by Farmer with an explicit (user-defined) name.
+</summary>
+</member>
+<member name="T:Farmer.AutoCreationKind`1">
+<summary>
+ A resource that will automatically be created by Farmer.
+</summary>
+</member>
+<member name="T:Farmer.Builder">
+<summary>
+ A functional equivalent of the IBuilder&apos;s BuildResources method.
+</summary>
+</member>
+<member name="T:Farmer.IPostDeploy">
+<summary>
+ An action that needs to be run after the ARM template has been deployed.
+</summary>
+</member>
+<member name="T:Farmer.IParameters">
+<summary>
+ Exposes parameters which are required by a specific IArmResource.
+</summary>
+</member>
+<member name="P:Farmer.SecureParameter.ArmExpression">
+<summary>
+ Gets an ARM expression reference to the parameter e.g. parameters(&apos;my-password&apos;)
+</summary>
+</member>
+<member name="T:Farmer.SecureParameter">
+<summary>
+ A secure parameter to be captured in an ARM template.
+</summary>
+</member>
+<member name="P:Farmer.ArmExpression.literal">
+<summary>
+ A helper function used when building complex ARM expressions; lifts a literal string into a
+ quoted ARM expression e.g. text becomes &apos;text&apos;. This is useful for working with functions
+ that can mix literal values and parameters.
+</summary>
+</member>
+<member name="P:Farmer.ArmExpression.Value">
+<summary>
+ Gets the raw value of this expression.
+</summary>
+</member>
+<member name="P:Farmer.ArmExpression.Owner">
+<summary>
+ Tries to get the owning resource of this expression.
+</summary>
+</member>
+<member name="M:Farmer.ArmExpression.concat(System.Collections.Generic.IEnumerable{Farmer.ArmExpression})">
+<summary>
+ Generates an ARM expression for concatination.
+</summary>
+</member>
+<member name="M:Farmer.ArmExpression.WithOwner(Farmer.ResourceId)">
+<summary>
+ Sets the owning resource on this ARM Expression.
+</summary>
+</member>
+<member name="M:Farmer.ArmExpression.Map(Microsoft.FSharp.Core.FSharpFunc{System.String,System.String})">
+<summary>
+ Applies a mapping function to the expression.
+</summary>
+</member>
+<member name="M:Farmer.ArmExpression.Eval(Farmer.ArmExpression)">
+<summary>
+ Evaluates the expression for emitting into an ARM template. That is, wraps it in [].
+</summary>
+</member>
+<member name="M:Farmer.ArmExpression.Eval">
+<summary>
+ Evaluates the expression for emitting into an ARM template. That is, wraps it in [].
+</summary>
+</member>
+<member name="T:Farmer.ArmExpression">
+<summary>
+ Represents an expression used within an ARM template
+</summary>
+</member>
+<member name="P:Farmer.IBuilder.ResourceId">
+<summary>
+ Provides the ResourceId that other resources should use when depending upon this builder.
+</summary>
+</member>
+<member name="M:Farmer.IBuilder.BuildResources(Farmer.Location)">
+<summary>
+ Given a location and the currently-built resources, returns a set of resource actions.
+</summary>
+</member>
+<member name="T:Farmer.IBuilder">
+<summary>
+ Represents a high-level configuration that can create a set of ARM Resources.
+</summary>
+</member>
+<member name="P:Farmer.IArmResource.ResourceId">
+<summary>
+ The name of the resource, to uniquely identify against other resources in the template.
+</summary>
+</member>
+<member name="P:Farmer.IArmResource.JsonModel">
+<summary>
+ A raw object that is ready for serialization directly to JSON.
+</summary>
+</member>
+<member name="T:Farmer.IArmResource">
+<summary>
+ An Azure ARM resource value which can be mapped into an ARM template.
+</summary>
+</member>
+<member name="M:Farmer.ResourceId.Eval">
+<summary>
+ Evaluates the expression for emitting into an ARM template. That is, wraps it in [].
+</summary>
+</member>
+<member name="P:Farmer.ResourceType.Type">
+<summary>
+ Returns the ARM resource type string value.
+</summary>
+</member>
+<member name="T:Farmer.ResourceName">
+<summary>
+ Represents a name of an ARM resource
+</summary>
+</member>
+<member name="T:Farmer.IPAddressCidr">
+<summary>
+ A network represented by an IP address and CIDR prefix.
+</summary>
+</member>
+<member name="T:Farmer.RoleId">
+<summary>
+ Represents a role that can be granted to an identity.
+</summary>
+</member>
+<member name="M:Farmer.ResourceRef.|ExternalResource|_|``1(Farmer.ResourceRef{``0})">
+<summary>
+ An active pattern that returns the resource name if the resource if external.
+</summary>
+</member>
+<member name="M:Farmer.ResourceRef.|DeployableResource|_|``1(``0,Farmer.ResourceRef{``0})">
+<summary>
+ An active pattern that returns the resource name if the resource should be deployed. In other
+ words, AutoCreate only.
+</summary>
+</member>
+<member name="M:Farmer.ResourceRef.|DependableResource|_|``1(``0,Farmer.ResourceRef{``0})">
+<summary>
+ An active pattern that returns the resource name if the resource should be set as a dependency.
+ In other words, all cases except External Unmanaged.
+</summary>
+</member>
+<member name="M:Farmer.ResourceRef.derived``1(Microsoft.FSharp.Core.FSharpFunc{``0,Farmer.ResourceId})">
+<summary>
+ Creates a ResourceRef which is automatically created and derived from the supplied config.
+</summary>
+</member>
+<member name="T:Farmer.Dns">
+<summary>
+ Built in Azure roles (https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles)
+</summary>
+</member>
+<member name="T:Farmer.NetworkSecurity.NetworkProtocol.ESP">
+<summary>
+ Encapsulating Security Payload (IPSec)
+</summary>
+</member>
+<member name="T:Farmer.NetworkSecurity.NetworkProtocol.AH">
+<summary>
+ Authentication Header (IPSec)
+</summary>
+</member>
+<member name="T:Farmer.NetworkSecurity.NetworkProtocol.ICMP">
+<summary>
+ Internet Control Message Protocol
+</summary>
+</member>
+<member name="T:Farmer.NetworkSecurity.NetworkProtocol.UDP">
+<summary>
+ User Datagram Protocol
+</summary>
+</member>
+<member name="T:Farmer.NetworkSecurity.NetworkProtocol.TCP">
+<summary>
+ Transmission Control Protocol
+</summary>
+</member>
+<member name="T:Farmer.NetworkSecurity.NetworkProtocol.AnyProtocol">
+<summary>
+ Any protocol
+</summary>
+</member>
+<member name="T:Farmer.NetworkSecurity.NetworkProtocol">
+<summary>
+ Network protocol supported in network security group rules.
+</summary>
+</member>
+<member name="M:Farmer.IPAddressCidrModule.assignable(Farmer.IPAddressCidr)">
+<summary>
+ The first two addresses are the network address and gateway address
+ so not assignable.
+</summary>
+</member>
+<member name="M:Farmer.IPAddressCidrModule.carveAddressSpace(Farmer.IPAddressCidr,Microsoft.FSharp.Collections.FSharpList{System.Int32})">
+<summary>
+ Carve a subnet out of an address space.
+</summary>
+</member>
+<member name="M:Farmer.IPAddressCidrModule.addresses(Farmer.IPAddressCidr)">
+<summary>
+ Sequence of IP addresses for a CIDR block.
+</summary>
+</member>
+<member name="M:Farmer.IPAddressCidrModule.ipRange(Farmer.IPAddressCidr)">
+<summary>
+ Calculates a range of IP addresses from an CIDR block.
+</summary>
+</member>
+<member name="M:Farmer.IPAddressCidrModule.contains(Farmer.IPAddressCidr,Farmer.IPAddressCidr)">
+<summary>
+ Indicates if one CIDR block can fit entirely within another CIDR block
+</summary>
+</member>
+<member name="M:Farmer.IPAddressCidrModule.ofNum(System.UInt32)">
+<summary>
+ Gets IP address from uint32 representations
+</summary>
+</member>
+<member name="M:Farmer.IPAddressCidrModule.num(System.Net.IPAddress)">
+<summary>
+ Gets uint32 representation of an IP address.
+</summary>
+</member>
+<member name="T:Farmer.IPAddressCidrModule">
+<summary>
+ Functions for IP networks and CIDR notation.
+</summary>
+</member>
+<member name="T:Farmer.CosmosDb.RU">
+<summary>
+ A request unit.
+</summary>
+</member>
+<member name="T:Farmer.CosmosDb.IndexDataType">
+<summary>
+ The datatype for the key of index to use on a CosmoDB container.
+</summary>
+</member>
+<member name="T:Farmer.CosmosDb.IndexKind">
+<summary>
+ The kind of index to use on a CosmoDB container.
+</summary>
+</member>
+<member name="T:Farmer.CosmosDb.FailoverPolicy">
+<summary>
+ The failover policy of a CosmosDB account.
+</summary>
+</member>
+<member name="T:Farmer.CosmosDb.ConsistencyPolicy">
+<summary>
+ The consistency policy of a CosmosDB account.
+</summary>
+</member>
+<member name="T:Farmer.EventHub.EventHubSku">
+<summary>
+ The SKU of the event hub instance.
+</summary>
+</member>
+<member name="T:Farmer.ContainerGroup.Volume.Secret">
+<summary>
+ Mounts a volume containing secret files.
+</summary>
+</member>
+<member name="T:Farmer.ContainerGroup.Volume.GitRepo">
+<summary>
+ A git repo volume, clonable by public HTTPS access.
+</summary>
+</member>
+<member name="T:Farmer.ContainerGroup.Volume.AzureFileShare">
+<summary>
+ Mounts an Azure File Share in the same resource group, performing a key lookup.
+</summary>
+</member>
+<member name="T:Farmer.ContainerGroup.Volume.EmptyDirectory">
+<summary>
+ Mounts an empty directory on the container group.
+</summary>
+</member>
+<member name="T:Farmer.ContainerGroup.Volume">
+<summary>
+ A container group volume.
+</summary>
+</member>
+<member name="T:Farmer.ContainerGroup.SecretFile">
+<summary>
+ A secret file which will be encoded as base64 and attached to a container group.
+</summary>
+</member>
+<member name="T:Farmer.Identity.ManagedIdentity">
+<summary>
+ Represents an identity that can be assigned to a resource for impersonation.
+</summary>
+</member>
+<member name="T:Farmer.Identity.UserAssignedIdentity">
+<summary>
+ Represents a User Assigned Identity, and the ability to create a Principal Id from it.
+</summary>
+</member>
+<member name="T:Farmer.Search.Sku">
+<summary>
+ The SKU of the search service you want to create. E.g. free or standard.
+</summary>
+</member>
+<member name="T:Farmer.ContainerRegistry.Sku">
+<summary>
+ Container Registry SKU
+</summary>
+</member>
+<member name="T:Farmer.CognitiveServices.Sku.F0">
+<summary>
+ Free Tier
+</summary>
+</member>
+<member name="T:Farmer.CognitiveServices.Sku">
+<summary>
+ Type of SKU. See https://github.com/Azure/azure-quickstart-templates/tree/master/101-cognitive-services-translate
+</summary>
+</member>
+<member name="P:Farmer.WebApp.Extensions.Logging">
+<summary>
+ The Microsoft.AspNetCore.AzureAppServices logging extension.
+</summary>
+</member>
+<member name="T:Farmer.Storage.LifecyclePolicyAction">
+<summary>
+ The type of action to take when defining a lifecycle policy.
+</summary>
+</member>
+<member name="P:Farmer.Storage.Sku.Standard_ZRS">
+<summary>
+ General Purpose V2 Standard ZRS.
+</summary>
+</member>
+<member name="P:Farmer.Storage.Sku.Standard_RAGZRS">
+<summary>
+ General Purpose V2 Standard RAGZRS.
+</summary>
+</member>
+<member name="P:Farmer.Storage.Sku.Standard_RAGRS">
+<summary>
+ General Purpose V2 Standard RAGRS.
+</summary>
+</member>
+<member name="P:Farmer.Storage.Sku.Standard_LRS">
+<summary>
+ General Purpose V2 Standard LRS.
+</summary>
+</member>
+<member name="P:Farmer.Storage.Sku.Standard_GZRS">
+<summary>
+ General Purpose V2 Standard GZRS.
+</summary>
+</member>
+<member name="P:Farmer.Storage.Sku.Standard_GRS">
+<summary>
+ General Purpose V2 Standard GRS.
+</summary>
+</member>
+<member name="P:Farmer.Storage.Sku.Premium_LRS">
+<summary>
+ General Purpose V2 Premium LRS.
+</summary>
+</member>
+<member name="P:Farmer.Storage.NoRuleFilters">
+<summary>
+ Represents no filters for a lifecycle rule
+</summary>
+</member>
+<member name="T:Farmer.Vm.DiskInfo">
+<summary>
+ Represents a disk in a VM.
+</summary>
+</member>
+<member name="T:Farmer.Vm.DiskType">
+<summary>
+ The type of disk to use.
+</summary>
+</member>
+<member name="M:Farmer.ArmBuilder.ArmBuilder.Output(Farmer.ArmBuilder.ArmConfig,System.String,System.String)">
+<summary>
+ Creates an output value that will be returned by the ARM template.
+</summary>
+</member>
+<member name="M:Farmer.ArmBuilder.ArmBuilder.Location(Farmer.ArmBuilder.ArmConfig,Farmer.Location)">
+<summary>
+ Sets the default location of all resources.
+</summary>
+</member>
+<member name="M:Farmer.ArmBuilder.ArmBuilder.AddResource(Farmer.ArmBuilder.ArmConfig,Farmer.IBuilder)">
+<summary>
+ Adds a builder&apos;s ARM resources to the ARM template.
+</summary>
+</member>
+<member name="T:Farmer.ArmBuilder.ArmConfig">
+<summary>
+ Represents all configuration information to generate an ARM template.
+</summary>
+</member>
+<member name="P:Farmer.ArmBuilder.Subscription.TenantId">
+<summary>
+ Gets an ARM expression pointing to the tenant id of the current subscription.
+</summary>
+</member>
+<member name="P:Farmer.ArmBuilder.Json.toIArmResource">
+<summary>
+ Creates a unique IArmResource from a JSON string containing the output you want.
+</summary>
+</member>
+<member name="M:Farmer.ArmBuilder.Resource.ofJson(System.String)">
+<summary>
+ Creates a unique IArmResource from a JSON string containing the output you want.
+</summary>
+</member>
+<member name="M:Farmer.ArmBuilder.Resource.ofObj(System.Object)">
+<summary>
+ Creates a unique IArmResource from an arbitrary object.
+</summary>
+</member>
+<member name="M:Farmer.Writer.quickWrite(System.String,Farmer.Deployment)">
+<summary>
+ Converts the supplied ARMTemplate to JSON and then writes it out to the provided template name. The postfix &quot;.json&quot; will automatically be added to the filename.
+</summary>
+</member>
+<member name="M:Farmer.Writer.toFile(System.String,System.String,System.String)">
+<summary>
+ Writes the provided JSON to a file based on the supplied template name. The postfix &quot;.json&quot; will automatically be added to the filename.
+</summary>
+</member>
+<member name="P:Farmer.Writer.toJson">
+<summary>
+ Returns a JSON string representing the supplied ARMTemplate.
+</summary>
+</member>
+<member name="T:Farmer.Deploy.Subscription">
+<summary>
+ Represents an Azure subscription
+</summary>
+</member>
+<member name="M:Farmer.Deploy.execute(System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}},Farmer.Deployment)">
+<summary>
+ Executes the supplied Deployment against a resource group using the Azure CLI.
+ If successful, returns a Map of the output keys and values, otherwise returns any error as an exception.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.tryExecute(System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}},Farmer.Deployment)">
+<summary>
+ Executes the supplied Deployment against a resource group using the Azure CLI.
+ If successful, returns a Map of the output keys and values.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.tryWhatIf(System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}},Farmer.Deployment)">
+<summary>
+ Validates a deployment against a resource group. If the resource group does not exist, it will be created automatically.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.tryValidate(System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}},Farmer.Deployment)">
+<summary>
+ Validates a deployment against a resource group. If the resource group does not exist, it will be created automatically.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.validateParameters``1(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}},Farmer.Deployment)">
+<summary>
+ Validates that the parameters supplied meet the deployment requirements.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.setSubscription(System.Guid)">
+<summary>
+ Sets the currently active (default) subscription.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.checkVersion(System.Version)">
+<summary>
+ Checks that the version of the Azure CLI meets minimum version.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.listSubscriptions">
+<summary>
+ Lists all subscriptions that the logged in identity has access to.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.authenticate(System.String,System.String,System.String)">
+<summary>
+ Authenticates the Az CLI using the supplied ApplicationId, Client Secret and Tenant Id.
+ Returns the list of subscriptions, including which one the default is.
+</summary>
+</member>
+<member name="P:Farmer.Deploy.Az.zipDeployFunctionApp">
+<summary>
+ Deploys a zip file to a function app using the Zip Deploy mechanism.
+</summary>
+</member>
+<member name="P:Farmer.Deploy.Az.zipDeployWebApp">
+<summary>
+ Deploys a zip file to a web app using the Zip Deploy mechanism.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.zipDeploy(System.String,System.String,Microsoft.FSharp.Core.FSharpFunc{System.String,System.String},System.String)">
+<summary>
+ Generic function for ZipDeploy using custom command (based on application type)
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.validate(System.String,System.String,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}})">
+<summary>
+ Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.deploy(System.String,System.String,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}})">
+<summary>
+ Deploys an ARM template to an existing resource group.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.searchGroups(System.String)">
+<summary>
+ Searches for groups in AD using the supplied filter.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.searchUsers(System.String)">
+<summary>
+ Searches for users in AD using the supplied filter.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.createResourceGroup(System.String,System.String)">
+<summary>
+ Creates a resource group.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.listSubscriptions">
+<summary>
+ Lists all subscriptions
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.loginWithCredentials(System.String,System.String,System.String)">
+<summary>
+ Logs you into the Az CLI using the supplied service principal credentials.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.login">
+<summary>
+ Logs you into Az CLI interactively.
+</summary>
+</member>
+<member name="M:Farmer.Deploy.Az.showAccount">
+<summary>
+ Tests if the Az CLI has logged in credentials.
+</summary>
+</member>
+<member name="P:Farmer.Deploy.Az.az">
+<summary>
+ Executes a generic AZ CLI command.
+</summary>
+</member>
+<member name="T:Farmer.Deploy.Az">
+<summary>
+ Provides strongly-typed access to the Azure CLI
+</summary>
+</member>
+<member name="M:Farmer.Arm.ManagedIdentity.toArmJson(Farmer.Identity.ManagedIdentity)">
+<summary>
+ Builds the JSON ARM value for a resource&apos;s identity.
+</summary>
+</member>
+<member name="P:Farmer.Arm.RoleAssignment.RoleAssignment.Scope">
+<summary>
+ Resource this role applies to.
+</summary>
+</member>
+<member name="P:Farmer.Arm.RoleAssignment.RoleAssignment.PrincipalType">
+<summary>
+ The type of principal being assigned - should be set to ServicePrincipal for managed identities to avoid
+ the role assignment being created before Active Directory can replicate the principal.
+</summary>
+</member>
+<member name="P:Farmer.Arm.RoleAssignment.RoleAssignment.PrincipalId">
+<summary>
+ The principal ID of the user or service identity that should be granted this role.
+</summary>
+</member>
+<member name="P:Farmer.Arm.RoleAssignment.RoleAssignment.RoleDefinitionId">
+<summary>
+ The role to assign, such as Roles.Contributor
+</summary>
+</member>
+<member name="P:Farmer.Arm.RoleAssignment.RoleAssignment.Name">
+<summary>
+ It&apos;s recommended to use a deterministic GUID for the role name.
+</summary>
+</member>
+<member name="T:Farmer.Arm.RoleAssignment.AssignmentScope">
+<summary>
+ The scope that an assignment applies to - either a specific resource, or the entire resource group.
+</summary>
+</member>
+<member name="M:Farmer.Arm.Web.ZipDeploy.ZipDeployKind.TryParse(System.String)">
+<summary>
+ Tries to create a ZipDeployKind from a string path.
+</summary>
+</member>
+<member name="M:Farmer.Arm.Web.ZipDeploy.ZipDeployKind.GetZipPath(System.String)">
+<summary>
+ Processes a ZipDeployKind and returns the filename of the zip file.
+ If the ZipDeployKind is a DeployFolder, the folder will be zipped first and the generated zip file returned.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SignalRServiceOwner">
+<summary>
+ Full access to Azure SignalR Service REST APIs
+</summary>
+</member>
+<member name="P:Farmer.Roles.SignalRServiceReader">
+<summary>
+ Read-only access to Azure SignalR Service REST APIs
+</summary>
+</member>
+<member name="P:Farmer.Roles.ManagedHSMcontributor">
+<summary>
+ Lets you manage managed HSM pools, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AgFoodPlatformServiceAdmin">
+<summary>
+ Provides admin access to AgFood Platform Service
+</summary>
+</member>
+<member name="P:Farmer.Roles.AgFoodPlatformServiceContributor">
+<summary>
+ Provides contribute access to AgFood Platform Service
+</summary>
+</member>
+<member name="P:Farmer.Roles.AgFoodPlatformServiceReader">
+<summary>
+ Provides read access to AgFood Platform Service
+</summary>
+</member>
+<member name="P:Farmer.Roles.SchemaRegistryContributor">
+<summary>
+ Read, write, and delete Schema Registry groups and schemas.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SchemaRegistryReader">
+<summary>
+ Read and list Schema Registry groups and schemas.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesMetricsAdvisorUser">
+<summary>
+ Access to the project.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesMetricsAdvisorAdministrator">
+<summary>
+ Full access to the project, including the system level configuration.
+</summary>
+</member>
+<member name="P:Farmer.Roles.DeviceUpdateContentReader">
+<summary>
+ Gives you read access to content operations, but does not allow making changes
+</summary>
+</member>
+<member name="P:Farmer.Roles.DeviceUpdateDeploymentsReader">
+<summary>
+ Gives you read access to management operations, but does not allow making changes
+</summary>
+</member>
+<member name="P:Farmer.Roles.DeviceUpdateDeploymentsAdministrator">
+<summary>
+ Gives you full access to management operations
+</summary>
+</member>
+<member name="P:Farmer.Roles.DeviceUpdateContentAdministrator">
+<summary>
+ Gives you full access to content operations
+</summary>
+</member>
+<member name="P:Farmer.Roles.DeviceUpdateAdministrator">
+<summary>
+ Gives you full access to management and content operations
+</summary>
+</member>
+<member name="P:Farmer.Roles.DeviceUpdateReader">
+<summary>
+ Gives you read access to management and content operations, but does not allow making changes
+</summary>
+</member>
+<member name="P:Farmer.Roles.CollaborativeDataContributor">
+<summary>
+ Can manage data packages of a collaborative.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SignalRServerlessContributor">
+<summary>
+ Lets your app access service in serverless mode.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SignalRAppServer">
+<summary>
+ Lets your app server access SignalR Service with AAD Auth options.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureArcEnabledKubernetesClusterUserRole">
+<summary>
+ List cluster user credentials action.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ObjectUnderstandingAccountReader">
+<summary>
+ Lets you read ingestion jobs for an object understanding account.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ServicesHubOperator">
+<summary>
+ Services Hub Operator allows you to perform all read, write, and deletion operations related to Services Hub Connectors.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureKubernetesServiceRBACWriter">
+<summary>
+ Lets you update everything in cluster/namespace, except resource quotas, namespaces, pod security policies, certificate signing requests, (cluster)roles and (cluster)role bindings.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureKubernetesServiceRBACReader">
+<summary>
+ Lets you view all resources in cluster/namespace, except secrets.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureKubernetesServiceRBACAdmin">
+<summary>
+ Lets you manage all resources under cluster/namespace, except update or delete resource quotas and namespaces.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureKubernetesServiceRBACClusterAdmin">
+<summary>
+ Lets you manage all resources in the cluster.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureArcKubernetesAdmin">
+<summary>
+ Lets you manage all resources under cluster/namespace, except update or delete resource quotas and namespaces.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureArcKubernetesClusterAdmin">
+<summary>
+ Lets you manage all resources in the cluster.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureArcKubernetesWriter">
+<summary>
+ Lets you update everything in cluster/namespace, except (cluster)roles and (cluster)role bindings.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureArcKubernetesViewer">
+<summary>
+ Lets you view all resources in cluster/namespace, except secrets.
+</summary>
+</member>
+<member name="P:Farmer.Roles.KeyVaultCryptoServiceEncryption">
+<summary>
+ Read metadata of keys and perform wrap/unwrap operations. Only works for key vaults that use the &apos;Azure role-based access control&apos; permission model.
+</summary>
+</member>
+<member name="P:Farmer.Roles.KeyVaultReader">
+<summary>
+ Read metadata of key vaults and its certificates, keys, and secrets. Cannot read sensitive values such as secret contents or key material. Only works for key vaults that use the &apos;Azure role-based access control&apos; permission model.
+</summary>
+</member>
+<member name="P:Farmer.Roles.KeyVaultCertificatesOfficer">
+<summary>
+ Perform any action on the certificates of a key vault, except manage permissions. Only works for key vaults that use the &apos;Azure role-based access control&apos; permission model.
+</summary>
+</member>
+<member name="P:Farmer.Roles.KeyVaultSecretsUser">
+<summary>
+ Read secret contents. Only works for key vaults that use the &apos;Azure role-based access control&apos; permission model.
+</summary>
+</member>
+<member name="P:Farmer.Roles.KeyVaultSecretsOfficer">
+<summary>
+ Perform any action on the secrets of a key vault, except manage permissions. Only works for key vaults that use the &apos;Azure role-based access control&apos; permission model.
+</summary>
+</member>
+<member name="P:Farmer.Roles.KeyVaultCryptoUser">
+<summary>
+ Perform cryptographic operations using keys. Only works for key vaults that use the &apos;Azure role-based access control&apos; permission model.
+</summary>
+</member>
+<member name="P:Farmer.Roles.KeyVaultCryptoOfficer">
+<summary>
+ Perform any action on the keys of a key vault, except manage permissions. Only works for key vaults that use the &apos;Azure role-based access control&apos; permission model.
+</summary>
+</member>
+<member name="P:Farmer.Roles.KeyVaultAdministrator">
+<summary>
+ Perform all data plane operations on a key vault and all objects in it, including certificates, keys, and secrets. Cannot manage key vault resources or manage role assignments. Only works for key vaults that use the &apos;Azure role-based access control&apos; permission model.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesCustomVisionTrainer">
+<summary>
+ View, edit projects and train the models, including the ability to publish, unpublish, export the models. Trainers can’t create or delete the project.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesCustomVisionReader">
+<summary>
+ Read-only actions in the project. Readers can’t create or update the project.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesCustomVisionLabeler">
+<summary>
+ View, edit training images and create, add, remove, or delete the image tags. Labelers can view the project but can’t update anything other than training images and tags.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesCustomVisionDeployment">
+<summary>
+ Publish, unpublish or export models. Deployment can view the project but can’t update.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesCustomVisionContributor">
+<summary>
+ Full access to the project, including the ability to view, create, edit, or delete projects.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureMapsDataContributor">
+<summary>
+ Grants access to read, write, and delete access to map related data from an Azure maps account.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ObjectUnderstandingAccountOwner">
+<summary>
+ Provides user with ingestion capabilities for Azure Object Understanding.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ExperimentationReader">
+<summary>
+ Experimentation Reader
+</summary>
+</member>
+<member name="P:Farmer.Roles.FHIRDataWriter">
+<summary>
+ Role allows user or principal to read and write FHIR Data
+</summary>
+</member>
+<member name="P:Farmer.Roles.FHIRDataReader">
+<summary>
+ Role allows user or principal to read FHIR Data
+</summary>
+</member>
+<member name="P:Farmer.Roles.FHIRDataExporter">
+<summary>
+ Role allows user or principal to read and export FHIR Data
+</summary>
+</member>
+<member name="P:Farmer.Roles.FHIRDataContributor">
+<summary>
+ Role allows user or principal full access to FHIR Data
+</summary>
+</member>
+<member name="P:Farmer.Roles.HierarchySettingsAdministrator">
+<summary>
+ Allows users to edit and delete Hierarchy Settings
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureDigitalTwinsOwner">
+<summary>
+ Full access role for Digital Twins data-plane
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureDigitalTwinsReader">
+<summary>
+ Read-only role for Digital Twins data-plane properties
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureKubernetesServiceContributorRole">
+<summary>
+ Grants access to read and write Azure Kubernetes Service clusters
+</summary>
+</member>
+<member name="P:Farmer.Roles.MarketplaceAdmin">
+<summary>
+ Administrator of marketplace resource provider
+</summary>
+</member>
+<member name="P:Farmer.Roles.IntegrationServiceEnvironmentContributor">
+<summary>
+ Lets you manage integration service environments, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.IntegrationServiceEnvironmentDeveloper">
+<summary>
+ Allows developers to create and update workflows, integration accounts and API connections in integration service environments.
+</summary>
+</member>
+<member name="P:Farmer.Roles.TagContributor">
+<summary>
+ Lets you manage tags on entities, without providing access to the entities themselves.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SecurityAssessmentContributor">
+<summary>
+ Lets you push assessments to Security Center
+</summary>
+</member>
+<member name="P:Farmer.Roles.ManagedApplicationContributorRole">
+<summary>
+ Allows for creating managed application resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.RemoteRenderingClient">
+<summary>
+ Provides user with manage session, rendering and diagnostics capabilities for Azure Remote Rendering.
+</summary>
+</member>
+<member name="P:Farmer.Roles.RemoteRenderingAdministrator">
+<summary>
+ Provides user with conversion, manage session, rendering and diagnostics capabilities for Azure Remote Rendering
+</summary>
+</member>
+<member name="P:Farmer.Roles.ExperimentationAdministrator">
+<summary>
+ Experimentation Administrator
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesQnAMakerEditor">
+<summary>
+ Let’s you create, edit, import and export a KB. You cannot publish or delete a KB.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesQnAMakerReader">
+<summary>
+ Let’s you read and test a KB only.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ExperimentationContributor">
+<summary>
+ Experimentation Contributor
+</summary>
+</member>
+<member name="P:Farmer.Roles.KubernetesClusterAzureArcOnboarding">
+<summary>
+ Role definition to authorize any user/service to create connectedClusters resource
+</summary>
+</member>
+<member name="P:Farmer.Roles.AppConfigurationDataReader">
+<summary>
+ Allows read access to App Configuration data.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AppConfigurationDataOwner">
+<summary>
+ Allows full access to App Configuration data.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ManagedServicesRegistrationAssignmentDeleteRole">
+<summary>
+ Managed Services Registration Assignment Delete Role allows the managing tenant users to delete the registration assignment assigned to their tenant.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureConnectedMachineResourceAdministrator">
+<summary>
+ Can read, write, delete and re-onboard Azure Connected Machines.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureConnectedMachineOnboarding">
+<summary>
+ Can onboard Azure Connected Machines.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SignalRContributor">
+<summary>
+ Create, Read, Update, and Delete SignalR service resources
+</summary>
+</member>
+<member name="P:Farmer.Roles.SignalRAccessKeyReader">
+<summary>
+ Read SignalR Service Access Keys
+</summary>
+</member>
+<member name="P:Farmer.Roles.PolicyInsightsDataWriter">
+<summary>
+ Allows read access to resource policies and write access to resource component policy events.
+</summary>
+</member>
+<member name="P:Farmer.Roles.WorkbookContributor">
+<summary>
+ Can save shared workbooks.
+</summary>
+</member>
+<member name="P:Farmer.Roles.WorkbookReader">
+<summary>
+ Can read workbooks.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureSentinelReader">
+<summary>
+ Azure Sentinel Reader
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureSentinelResponder">
+<summary>
+ Azure Sentinel Responder
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureSentinelContributor">
+<summary>
+ Azure Sentinel Contributor
+</summary>
+</member>
+<member name="P:Farmer.Roles.BlueprintOperator">
+<summary>
+ Can assign existing published blueprints, but cannot create new blueprints. NOTE: this only works if the assignment is done with a user-assigned managed identity.
+</summary>
+</member>
+<member name="P:Farmer.Roles.BlueprintContributor">
+<summary>
+ Can manage blueprint definitions, but not assign them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageFileDataSMBShareElevatedContributor">
+<summary>
+ Allows for read, write, delete and modify NTFS permission access in Azure Storage file shares over SMB
+</summary>
+</member>
+<member name="P:Farmer.Roles.DesktopVirtualizationUser">
+<summary>
+ Allows user to use the applications in an application group.
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageBlobDelegator">
+<summary>
+ Allows for generation of a user delegation key which can be used to sign SAS tokens
+</summary>
+</member>
+<member name="P:Farmer.Roles.PrivateDNSZoneContributor">
+<summary>
+ Lets you manage private DNS zone resources, but not the virtual networks they are linked to.
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageFileDataSMBShareContributor">
+<summary>
+ Allows for read, write, and delete access in Azure Storage file shares over SMB
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageFileDataSMBShareReader">
+<summary>
+ Allows for read access to Azure File Share over SMB
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureServiceBusDataSender">
+<summary>
+ Allows for send access to Azure Service Bus resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureServiceBusDataReceiver">
+<summary>
+ Allows for receive access to Azure Service Bus resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureEventHubsDataSender">
+<summary>
+ Allows send access to Azure Event Hubs resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureEventHubsDataReceiver">
+<summary>
+ Allows receive access to Azure Event Hubs resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.HybridServerOnboarding">
+<summary>
+ Can onboard new Hybrid servers to the Hybrid Resource Provider.
+</summary>
+</member>
+<member name="P:Farmer.Roles.HybridServerResourceAdministrator">
+<summary>
+ Can read, write, delete, and re-onboard Hybrid servers to the Hybrid Resource Provider.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CosmosDBOperator">
+<summary>
+ Lets you manage Azure Cosmos DB accounts, but not access data in them. Prevents access to account keys and connection strings.
+</summary>
+</member>
+<member name="P:Farmer.Roles.HDInsightClusterOperator">
+<summary>
+ Lets you read and modify HDInsight cluster configurations.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AttestationContributor">
+<summary>
+ Can read write or delete the attestation provider instance
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureEventHubsDataOwner">
+<summary>
+ Allows for full access to Azure Event Hubs resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureServiceBusDataOwner">
+<summary>
+ Allows for full access to Azure Service Bus resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.WebsiteContributor">
+<summary>
+ Lets you manage websites (not web plans), but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.WebPlanContributor">
+<summary>
+ Lets you manage the web plans for websites, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.VirtualMachineContributor">
+<summary>
+ Lets you manage virtual machines, but not access to them, and not the virtual network or storage account they&apos;re connected to.
+</summary>
+</member>
+<member name="P:Farmer.Roles.VirtualMachineUserLogin">
+<summary>
+ View Virtual Machines in the portal and login as a regular user.
+</summary>
+</member>
+<member name="P:Farmer.Roles.UserAccessAdministrator">
+<summary>
+ Lets you manage user access to Azure resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.VirtualMachineAdministratorLogin">
+<summary>
+ View Virtual Machines in the portal and login as administrator
+</summary>
+</member>
+<member name="P:Farmer.Roles.TrafficManagerContributor">
+<summary>
+ Lets you manage Traffic Manager profiles, but does not let you control who has access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SupportRequestContributor">
+<summary>
+ Lets you create and manage Support requests
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageQueueDataReader">
+<summary>
+ Allows for read access to Azure Storage queues and queue messages
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageQueueDataMessageSender">
+<summary>
+ Allows for sending of Azure Storage queue messages
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageQueueDataMessageProcessor">
+<summary>
+ Allows for peek, receive, and delete access to Azure Storage queue messages
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageQueueDataContributor">
+<summary>
+ Allows for read, write, and delete access to Azure Storage queues and queue messages
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageBlobDataReader">
+<summary>
+ Allows for read access to Azure Storage blob containers and data
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageBlobDataOwner">
+<summary>
+ Allows for full access to Azure Storage blob containers and data, including assigning POSIX access control.
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageBlobDataContributor">
+<summary>
+ Allows for read, write and delete access to Azure Storage blob containers and data
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageAccountKeyOperatorServiceRole">
+<summary>
+ Storage Account Key Operators are allowed to list and regenerate keys on Storage Accounts
+</summary>
+</member>
+<member name="P:Farmer.Roles.SQLServerContributor">
+<summary>
+ Lets you manage SQL servers and databases, but not access to them, and not their security -related policies.
+</summary>
+</member>
+<member name="P:Farmer.Roles.StorageAccountContributor">
+<summary>
+ Lets you manage storage accounts, including accessing storage account keys which provide full access to storage account data.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SQLSecurityManager">
+<summary>
+ Lets you manage the security-related policies of SQL servers and databases, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SQLDBContributor">
+<summary>
+ Lets you manage SQL databases, but not access to them. Also, you can&apos;t manage their security-related policies or their parent SQL servers.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SQLManagedInstanceContributor">
+<summary>
+ Lets you manage SQL Managed Instances and required network configuration, but can’t give access to others.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SpatialAnchorsAccountOwner">
+<summary>
+ Lets you manage spatial anchors in your account, including deleting them
+</summary>
+</member>
+<member name="P:Farmer.Roles.SiteRecoveryReader">
+<summary>
+ Lets you view Site Recovery status but not perform other management operations
+</summary>
+</member>
+<member name="P:Farmer.Roles.SpatialAnchorsAccountReader">
+<summary>
+ Lets you locate and read properties of spatial anchors in your account
+</summary>
+</member>
+<member name="P:Farmer.Roles.SiteRecoveryOperator">
+<summary>
+ Lets you failover and failback but not perform other Site Recovery management operations
+</summary>
+</member>
+<member name="P:Farmer.Roles.SiteRecoveryContributor">
+<summary>
+ Lets you manage Site Recovery service except vault creation and role assignment
+</summary>
+</member>
+<member name="P:Farmer.Roles.SpatialAnchorsAccountContributor">
+<summary>
+ Lets you manage spatial anchors in your account, but not delete them
+</summary>
+</member>
+<member name="P:Farmer.Roles.SecurityReader">
+<summary>
+ Security Reader Role
+</summary>
+</member>
+<member name="P:Farmer.Roles.SecurityManager">
+<summary>
+ This is a legacy role. Please use Security Administrator instead
+</summary>
+</member>
+<member name="P:Farmer.Roles.SecurityAdmin">
+<summary>
+ Security Admin Role
+</summary>
+</member>
+<member name="P:Farmer.Roles.SearchServiceContributor">
+<summary>
+ Lets you manage Search services, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.SchedulerJobCollectionsContributor">
+<summary>
+ Lets you manage Scheduler job collections, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ResourcePolicyContributor">
+<summary>
+ Users with rights to create/modify resource policy, create support ticket and read resources/hierarchy.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ReaderAndDataAccess">
+<summary>
+ Lets you view everything but will not let you delete or create a storage account or contained resource. It will also allow read/write access to all data contained in a storage account via access to storage account keys.
+</summary>
+</member>
+<member name="P:Farmer.Roles.RedisCacheContributor">
+<summary>
+ Lets you manage Redis caches, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.Reader">
+<summary>
+ View all resources, but does not allow you to make any changes.
+</summary>
+</member>
+<member name="P:Farmer.Roles.Owner">
+<summary>
+ Grants full access to manage all resources, including the ability to assign roles in Azure RBAC.
+</summary>
+</member>
+<member name="P:Farmer.Roles.NewRelicAPMAccountContributor">
+<summary>
+ Lets you manage New Relic Application Performance Management accounts and applications, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.MonitoringContributor">
+<summary>
+ Can read all monitoring data and update monitoring settings.
+</summary>
+</member>
+<member name="P:Farmer.Roles.NetworkContributor">
+<summary>
+ Lets you manage networks, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.MonitoringReader">
+<summary>
+ Can read all monitoring data.
+</summary>
+</member>
+<member name="P:Farmer.Roles.MonitoringMetricsPublisher">
+<summary>
+ Enables publishing metrics against Azure resources
+</summary>
+</member>
+<member name="P:Farmer.Roles.ManagementGroupReader">
+<summary>
+ Management Group Reader Role
+</summary>
+</member>
+<member name="P:Farmer.Roles.ManagementGroupContributor">
+<summary>
+ Management Group Contributor Role
+</summary>
+</member>
+<member name="P:Farmer.Roles.ManagedIdentityContributor">
+<summary>
+ Create, Read, Update, and Delete User Assigned Identity
+</summary>
+</member>
+<member name="P:Farmer.Roles.ManagedIdentityOperator">
+<summary>
+ Read and Assign User Assigned Identity
+</summary>
+</member>
+<member name="P:Farmer.Roles.ManagedApplicationsReader">
+<summary>
+ Lets you read resources in a managed app and request JIT access.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ManagedApplicationOperatorRole">
+<summary>
+ Lets you read and perform actions on Managed Application resources
+</summary>
+</member>
+<member name="P:Farmer.Roles.LogicAppContributor">
+<summary>
+ Lets you manage logic app, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.LogicAppOperator">
+<summary>
+ Lets you read, enable and disable logic app.
+</summary>
+</member>
+<member name="P:Farmer.Roles.LogAnalyticsContributor">
+<summary>
+ Log Analytics Contributor can read all monitoring data and edit monitoring settings. Editing monitoring settings includes adding the VM extension to VMs; reading storage account keys to be able to configure collection of logs from Azure Storage; creating and configuring Automation accounts; adding solutions; and configuring Azure diagnostics on all Azure resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.LogAnalyticsReader">
+<summary>
+ Log Analytics Reader can view and search all monitoring data as well as and view monitoring settings, including viewing the configuration of Azure diagnostics on all Azure resources.
+</summary>
+</member>
+<member name="P:Farmer.Roles.LabCreator">
+<summary>
+ Lets you create new labs under your Azure Lab Accounts.
+</summary>
+</member>
+<member name="P:Farmer.Roles.KnowledgeConsumer">
+<summary>
+ Knowledge Read permission to consume Enterprise Graph Knowledge using entity search and graph query
+</summary>
+</member>
+<member name="P:Farmer.Roles.KeyVaultContributor">
+<summary>
+ Lets you manage key vaults, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.IntelligentSystemsAccountContributor">
+<summary>
+ Lets you manage Intelligent Systems accounts, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.HDInsightDomainServicesContributor">
+<summary>
+ Can Read, Create, Modify and Delete Domain Services related operations needed for HDInsight Enterprise Security Package
+</summary>
+</member>
+<member name="P:Farmer.Roles.GraphOwner">
+<summary>
+ Create and manage all aspects of the Enterprise Graph - Ontology, Schema mapping, Conflation and Conversational AI and Ingestions
+</summary>
+</member>
+<member name="P:Farmer.Roles.EventGridEventSubscriptionReader">
+<summary>
+ Lets you read EventGrid event subscriptions.
+</summary>
+</member>
+<member name="P:Farmer.Roles.EventGridEventSubscriptionContributor">
+<summary>
+ Lets you manage EventGrid event subscription operations.
+</summary>
+</member>
+<member name="P:Farmer.Roles.DNSZoneContributor">
+<summary>
+ Lets you manage DNS zones and record sets in Azure DNS, but does not let you control who has access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.DocumentDBAccountContributor">
+<summary>
+ Lets you manage DocumentDB accounts, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.DevTestLabsUser">
+<summary>
+ Lets you connect, start, restart, and shutdown your virtual machines in your Azure DevTest Labs.
+</summary>
+</member>
+<member name="P:Farmer.Roles.DataLakeAnalyticsDeveloper">
+<summary>
+ Lets you submit, monitor, and manage your own jobs but not create or delete Data Lake Analytics accounts.
+</summary>
+</member>
+<member name="P:Farmer.Roles.DataPurger">
+<summary>
+ Can purge analytics data
+</summary>
+</member>
+<member name="P:Farmer.Roles.DataFactoryContributor">
+<summary>
+ Create and manage data factories, as well as child resources within them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.DataBoxReader">
+<summary>
+ Lets you manage Data Box Service except creating order or editing order details and giving access to others.
+</summary>
+</member>
+<member name="P:Farmer.Roles.DataBoxContributor">
+<summary>
+ Lets you manage everything under Data Box Service except giving access to others.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CostManagementReader">
+<summary>
+ Can view cost data and configuration (e.g. budgets, exports)
+</summary>
+</member>
+<member name="P:Farmer.Roles.CostManagementContributor">
+<summary>
+ Can view costs and manage cost configuration (e.g. budgets, exports)
+</summary>
+</member>
+<member name="P:Farmer.Roles.CosmosDBAccountReaderRole">
+<summary>
+ Can read Azure Cosmos DB Accounts data
+</summary>
+</member>
+<member name="P:Farmer.Roles.Contributor">
+<summary>
+ Grants full access to manage all resources, but does not allow you to assign roles in Azure RBAC.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CosmosBackupOperator">
+<summary>
+ Can submit restore request for a Cosmos DB database or a container for an account
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesContributor">
+<summary>
+ Lets you create, read, update, delete and manage keys of Cognitive Services.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesDataReader">
+<summary>
+ Lets you read Cognitive Services data.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CognitiveServicesUser">
+<summary>
+ Lets you read and list keys of Cognitive Services.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ClassicVirtualMachineContributor">
+<summary>
+ Lets you manage classic virtual machines, but not access to them, and not the virtual network or storage account they’re connected to.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ClearDBMySQLDBContributor">
+<summary>
+ Lets you manage ClearDB MySQL databases, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ClassicStorageAccountKeyOperatorServiceRole">
+<summary>
+ Classic Storage Account Key Operators are allowed to list and regenerate keys on Classic Storage Accounts
+</summary>
+</member>
+<member name="P:Farmer.Roles.ClassicStorageAccountContributor">
+<summary>
+ Lets you manage classic storage accounts, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.ClassicNetworkContributor">
+<summary>
+ Lets you manage classic networks, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CDNProfileReader">
+<summary>
+ Can view CDN profiles and their endpoints, but can’t make changes.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CDNProfileContributor">
+<summary>
+ Can manage CDN profiles and their endpoints, but can’t grant access to other users.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CDNEndpointReader">
+<summary>
+ Can view CDN endpoints, but can’t make changes.
+</summary>
+</member>
+<member name="P:Farmer.Roles.CDNEndpointContributor">
+<summary>
+ Can manage CDN endpoints, but can’t grant access to other users.
+</summary>
+</member>
+<member name="P:Farmer.Roles.BizTalkContributor">
+<summary>
+ Lets you manage BizTalk services, but not access to them.
+</summary>
+</member>
+<member name="P:Farmer.Roles.BlockchainMemberNodeAccess">
+<summary>
+ Allows for access to Blockchain Member nodes
+</summary>
+</member>
+<member name="P:Farmer.Roles.BackupReader">
+<summary>
+ Can view backup services, but can&apos;t make changes
+</summary>
+</member>
+<member name="P:Farmer.Roles.BackupOperator">
+<summary>
+ Lets you manage backup services, except removal of backup, vault creation and giving access to others
+</summary>
+</member>
+<member name="P:Farmer.Roles.BillingReader">
+<summary>
+ Allows read access to billing data
+</summary>
+</member>
+<member name="P:Farmer.Roles.BackupContributor">
+<summary>
+ Lets you manage backup service,but can&apos;t create vaults and give access to others
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureStackRegistrationOwner">
+<summary>
+ Lets you manage Azure Stack registrations.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureMapsDataReader">
+<summary>
+ Grants access to read map related data from an Azure maps account.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureKubernetesServiceClusterUserRole">
+<summary>
+ List cluster user credential action.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AzureKubernetesServiceClusterAdminRole">
+<summary>
+ List cluster admin credential action.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AvereOperator">
+<summary>
+ Used by the Avere vFXT cluster to manage the cluster
+</summary>
+</member>
+<member name="P:Farmer.Roles.AvereContributor">
+<summary>
+ Can create and manage an Avere vFXT cluster.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AutomationOperator">
+<summary>
+ Automation Operators are able to start, stop, suspend, and resume jobs
+</summary>
+</member>
+<member name="P:Farmer.Roles.AutomationRunbookOperator">
+<summary>
+ Read Runbook properties - to be able to create Jobs of the runbook.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AutomationJobOperator">
+<summary>
+ Create and Manage Jobs using Automation Runbooks.
+</summary>
+</member>
+<member name="P:Farmer.Roles.AttestationReader">
+<summary>
+ Can read the attestation provider properties
+</summary>
+</member>
+<member name="P:Farmer.Roles.ApplicationInsightsSnapshotDebugger">
+<summary>
+ Gives user permission to use Application Insights Snapshot Debugger features
+</summary>
+</member>
+<member name="P:Farmer.Roles.ApplicationInsightsComponentContributor">
+<summary>
+ Can manage Application Insights components
+</summary>
+</member>
+<member name="P:Farmer.Roles.APIManagementServiceReaderRole">
+<summary>
+ Read-only access to service and APIs
+</summary>
+</member>
+<member name="P:Farmer.Roles.APIManagementServiceOperatorRole">
+<summary>
+ Can manage service but not the APIs
+</summary>
+</member>
+<member name="P:Farmer.Roles.AcrQuarantineWriter">
+<summary>
+ acr quarantine data writer
+</summary>
+</member>
+<member name="P:Farmer.Roles.AcrQuarantineReader">
+<summary>
+ acr quarantine data reader
+</summary>
+</member>
+<member name="P:Farmer.Roles.AcrDelete">
+<summary>
+ acr delete
+</summary>
+</member>
+<member name="P:Farmer.Roles.AcrImageSigner">
+<summary>
+ acr image signer
+</summary>
+</member>
+<member name="P:Farmer.Roles.AcrPull">
+<summary>
+ acr pull
+</summary>
+</member>
+<member name="P:Farmer.Roles.APIManagementServiceContributor">
+<summary>
+ Can manage service and the APIs
+</summary>
+</member>
+<member name="P:Farmer.Roles.AcrPush">
+<summary>
+ acr push
+</summary>
+</member>
+<member name="M:Farmer.ManagedIdentityExtensions.ManagedIdentity.create.Static(Farmer.ResourceName)">
+<summary>
+ Creates a resource identity from a resource name
+</summary>
+</member>
+<member name="M:Farmer.ManagedIdentityExtensions.ManagedIdentity.create.Static(Farmer.ResourceId)">
+<summary>
+ Creates a single User-Assigned ResourceIdentity from a ResourceId
+</summary>
+</member>
+<member name="M:Farmer.Builders.LogAnalytics.WorkspaceBuilder.Tags(Farmer.Builders.LogAnalytics.WorkspaceConfig,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}})">
+<summary>
+ Adds a set of tags to the resource
+</summary>
+</member>
+<member name="M:Farmer.Builders.LogAnalytics.WorkspaceBuilder.Tag(Farmer.Builders.LogAnalytics.WorkspaceConfig,System.String,System.String)">
+<summary>
+ Adds a tag to the resource
+</summary>
+</member>
+<member name="M:Farmer.Builders.LogAnalytics.WorkspaceBuilder.RetentionInDays(Farmer.Builders.LogAnalytics.WorkspaceConfig,System.Int32)">
+<summary>
+ The workspace data retention in days. Must be between 30 and 730 days.
+</summary>
+</member>
+<member name="M:Farmer.Builders.LogAnalytics.WorkspaceBuilder.PublicNetworkAccessForQuery(Farmer.Builders.LogAnalytics.WorkspaceConfig)">
+<summary>
+ Enables Log Analytics querying.
+</summary>
+</member>
+<member name="M:Farmer.Builders.LogAnalytics.WorkspaceBuilder.PublicNetworkAccessForIngestion(Farmer.Builders.LogAnalytics.WorkspaceConfig)">
+<summary>
+ Enables Log Analytics ingestion
+</summary>
+</member>
+<member name="M:Farmer.Builders.LogAnalytics.WorkspaceBuilder.Name(Farmer.Builders.LogAnalytics.WorkspaceConfig,System.String)">
+<summary>
+ Sets the name of the Log Analytics workspace.
+</summary>
+</member>
+<member name="M:Farmer.Builders.LogAnalytics.WorkspaceBuilder.DailyCap(Farmer.Builders.LogAnalytics.WorkspaceConfig,System.Int32)">
+<summary>
+ Specifies the daily cap of ingested data.
+</summary>
+</member>
+<member name="M:Farmer.Builders.UserAssignedIdentity.UserAssignedIdentityBuilder.Tags(Farmer.Builders.UserAssignedIdentity.UserAssignedIdentityConfig,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}})">
+<summary>
+ Adds tags to the user assigned identity.
+</summary>
+</member>
+<member name="M:Farmer.Builders.UserAssignedIdentity.UserAssignedIdentityBuilder.Tag(Farmer.Builders.UserAssignedIdentity.UserAssignedIdentityConfig,System.String,System.String)">
+<summary>
+ Adds a tag to the user assigned identity.
+</summary>
+</member>
+<member name="M:Farmer.Builders.UserAssignedIdentity.UserAssignedIdentityBuilder.Name(Farmer.Builders.UserAssignedIdentity.UserAssignedIdentityConfig,System.String)">
+<summary>
+ Sets the name of the user assigned identity.
+</summary>
+</member>
+<member name="M:Farmer.Builders.UserAssignedIdentity.createUserAssignedIdentity(System.String)">
+<summary>
+ Quickly creates a user-assigned managed identity.
+</summary>
+</member>
+<member name="P:Farmer.Builders.UserAssignedIdentity.userAssignedIdentity">
+<summary>
+ Builds a user assigned identity.
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.SetTier(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,Farmer.PostgreSQL.Sku)">
+<summary>
+ Sets tier
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.SetStorageSizeInMBs(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,System.Int32)">
+<summary>
+ sets storage size in MBs
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.SetStorageAutogrow(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,System.Boolean)">
+<summary>
+ Sets storage autogrow
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.SetServerVersion(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,Farmer.PostgreSQL.Version)">
+<summary>
+ Sets the PostgreSQl server version
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.SetGeoRedundantBackup(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,System.Boolean)">
+<summary>
+ Sets geo-redundant backup
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.SetCapacity(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,System.Int32)">
+<summary>
+ Sets capacity
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.SetBackupRetention(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,System.Int32)">
+<summary>
+ sets the backup retention in days
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.ServerName(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the PostgreSQL server
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.EnableStorageAutogrow(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig)">
+<summary>
+ Enables storage autogrow
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.EnableGeoRedundantBackup(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig)">
+<summary>
+ Enables geo-redundant backup
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.EnableAzureFirewall(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig)">
+<summary>
+ Adds a firewall rule that enables access to other Azure services.
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.DisableStorageAutogrow(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig)">
+<summary>
+ Disables storage autogrow
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.DisableGeoRedundantBackup(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig)">
+<summary>
+ Disables geo-redundant backup
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.AdminUsername(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,System.String)">
+<summary>
+ Sets the name of the admin user
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.AddFirewallWall(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,System.String,System.String,System.String)">
+<summary>
+ Adds a custom firewall rule given a name, start and end IP address range.
+</summary>
+</member>
+<member name="M:Farmer.Builders.PostgreSQLAzure.PostgreSQLBuilder.AddDatabase(Farmer.Builders.PostgreSQLAzure.PostgreSQLConfig,Farmer.Builders.PostgreSQLAzure.PostgreSQLDbConfig)">
+<summary>
+ Adds a new database to the server, either by specifying the name of the database or providing a PostgreSQLDbConfig
+</summary>
+</member>
+<member name="M:Farmer.Builders.Cdn.EndpointBuilder.QueryStringCachingBehaviour(Farmer.Builders.Cdn.EndpointConfig,Farmer.Cdn.QueryStringCachingBehaviour)">
+<summary>
+ Defines how CDN caches requests that include query strings.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Cdn.EndpointBuilder.Origin(Farmer.Builders.Cdn.EndpointConfig,Farmer.ArmExpression)">
+<summary>
+ The address of the origin.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Cdn.EndpointBuilder.OptimiseFor(Farmer.Builders.Cdn.EndpointConfig,Farmer.Cdn.OptimizationType)">
+<summary>
+ Specifies what scenario the customer wants this CDN endpoint to optimise for.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Cdn.EndpointBuilder.Name(Farmer.Builders.Cdn.EndpointConfig,Farmer.ResourceName)">
+<summary>
+ Name of the endpoint within the CDN.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Cdn.EndpointBuilder.DependsOn(Farmer.Builders.Cdn.EndpointConfig,Farmer.IBuilder)">
+<summary>
+ Sets a dependency for the web app.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Cdn.EndpointBuilder.CustomDomain(Farmer.Builders.Cdn.EndpointConfig,System.String)">
+<summary>
+ Name of the custom domain hostname.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Cdn.EndpointBuilder.AddCompressedContentTypes(Farmer.Builders.Cdn.EndpointConfig,System.Collections.Generic.IEnumerable{System.String})">
+<summary>
+ Adds a list of MIME content types on which compression applies.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.NetworkProfileBuilder.VirtualNetwork(Farmer.Builders.ContainerGroups.NetworkProfileConfig,System.String)">
+<summary>
+ Sets the virtual network for the profile
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.NetworkProfileBuilder.SubnetName(Farmer.Builders.ContainerGroups.NetworkProfileConfig,System.String)">
+<summary>
+ Sets a single target subnet for the network profile (typical case of single subnet)
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.NetworkProfileBuilder.Name(Farmer.Builders.ContainerGroups.NetworkProfileConfig,System.String)">
+<summary>
+ Sets the name of the network profile instance
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.NetworkProfileBuilder.AddIpConfigs(Farmer.Builders.ContainerGroups.NetworkProfileConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.Builders.ContainerGroups.ContainerNetworkInterfaceConfiguration})">
+<summary>
+ Sets a single target subnet for the network profile (typical case of single subnet)
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerInstanceBuilder.PublicPorts(Farmer.Builders.ContainerGroups.ContainerInstanceConfig,System.Collections.Generic.IEnumerable{System.UInt16})">
+<summary>
+ Sets the ports the container instance exposes. These will automatically be applied to the container group.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerInstanceBuilder.Ports(Farmer.Builders.ContainerGroups.ContainerInstanceConfig,Farmer.ContainerGroup.PortAccess,System.Collections.Generic.IEnumerable{System.UInt16})">
+<summary>
+ Sets the ports the container instance exposes. These will automatically be applied to the container group.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerInstanceBuilder.Name(Farmer.Builders.ContainerGroups.ContainerInstanceConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the container instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerInstanceBuilder.Memory(Farmer.Builders.ContainerGroups.ContainerInstanceConfig,System.Double)">
+<summary>
+ Sets the maximum gigabytes of memory the container instance may use
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerInstanceBuilder.InternalPorts(Farmer.Builders.ContainerGroups.ContainerInstanceConfig,System.Collections.Generic.IEnumerable{System.UInt16})">
+<summary>
+ Sets the ports the container instance exposes. These will automatically be applied to the container group.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerInstanceBuilder.Image(Farmer.Builders.ContainerGroups.ContainerInstanceConfig,System.String)">
+<summary>
+ Sets the image of the container instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerInstanceBuilder.CpuCount(Farmer.Builders.ContainerGroups.ContainerInstanceConfig,System.Double)">
+<summary>
+ Sets the maximum CPU cores the container instance may use
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerInstanceBuilder.CommandLine(Farmer.Builders.ContainerGroups.ContainerInstanceConfig,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Adds commands to execute within the container instance
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerInstanceBuilder.AddVolumeMount(Farmer.Builders.ContainerGroups.ContainerInstanceConfig,System.String,System.String)">
+<summary>
+ Adds a volume mount to the container
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.RestartPolicy(Farmer.Builders.ContainerGroups.ContainerGroupConfig,Farmer.ContainerGroup.RestartPolicy)">
+<summary>
+ Sets the restart policy (default Always)
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.PublicDns(Farmer.Builders.ContainerGroups.ContainerGroupConfig,System.String,System.Collections.Generic.IEnumerable{System.Tuple{Farmer.TransmissionProtocol,System.UInt16}})">
+<summary>
+ Sets the IP addresss to a public address with a DNS label
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.PrivateIp(Farmer.Builders.ContainerGroups.ContainerGroupConfig,System.Collections.Generic.IEnumerable{System.Tuple{Farmer.TransmissionProtocol,System.UInt16}})">
+<summary>
+ Sets the IP addresss to a private address assigned by the vnet
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.OsType(Farmer.Builders.ContainerGroups.ContainerGroupConfig,Farmer.OS)">
+<summary>
+ Sets the OS type (default Linux)
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.NetworkProfile(Farmer.Builders.ContainerGroups.ContainerGroupConfig,System.String)">
+<summary>
+ Sets a network profile for the container&apos;s group.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.Name(Farmer.Builders.ContainerGroups.ContainerGroupConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the container group.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.AddVolumes(Farmer.Builders.ContainerGroups.ContainerGroupConfig,System.Collections.Generic.IEnumerable{System.Tuple{System.String,Farmer.ContainerGroup.Volume}})">
+<summary>
+ Adds volumes to the container group so they can be mounted on containers.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.AddUdpPort(Farmer.Builders.ContainerGroups.ContainerGroupConfig,System.UInt16)">
+<summary>
+ Adds a UDP port to be externally accessible
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.AddRegistryCredentials(Farmer.Builders.ContainerGroups.ContainerGroupConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.Arm.ContainerInstance.ImageRegistryCredential})">
+<summary>
+ Adds container image registry credentials for images in this container group.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.AddInstances(Farmer.Builders.ContainerGroups.ContainerGroupConfig,System.Collections.Generic.IEnumerable{Farmer.Builders.ContainerGroups.ContainerInstanceConfig})">
+<summary>
+ Adds a collection of container instances to this group
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.ContainerGroupBuilder.AddIdentity(Farmer.Builders.ContainerGroups.ContainerGroupConfig,Farmer.Identity.UserAssignedIdentity)">
+<summary>
+ Sets the managed identity on this container group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.Tags">
+<summary>
+ Tags for the container group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.Identity">
+<summary>
+ Managed identity for the container group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.Volumes">
+<summary>
+ Volumes to mount on the container group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.Instances">
+<summary>
+ The instances in this container group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.NetworkProfile">
+<summary>
+ Name of the network profile for this container&apos;s group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.IpAddress">
+<summary>
+ IP address for the container group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.ImageRegistryCredentials">
+<summary>
+ Credentials for image registries used by containers in this group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.RestartPolicy">
+<summary>
+ Restart policy for the container group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.OperatingSystem">
+<summary>
+ Container group OS.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerGroupConfig.Name">
+<summary>
+ The name of the container group.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerInstanceConfig.VolumeMounts">
+<summary>
+ Volume mounts for the container
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerInstanceConfig.EnvironmentVariables">
+<summary>
+ Environment variables for the container
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerInstanceConfig.Memory">
+<summary>
+ Max gigabytes of memory the container instance may use
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerInstanceConfig.Cpu">
+<summary>
+ Max number of CPU cores the container instance may use
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerInstanceConfig.Ports">
+<summary>
+ List of ports the container instance listens on
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerInstanceConfig.Command">
+<summary>
+ The commands to execute within the container instance in exec form
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerInstanceConfig.Image">
+<summary>
+ The container instance image
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerGroups.ContainerInstanceConfig.Name">
+<summary>
+ The name of the container instance
+</summary>
+</member>
+<member name="T:Farmer.Builders.ContainerGroups.ContainerInstanceConfig">
+<summary>
+ Represents configuration for a single Container.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerGroups.registry(System.String,System.String)">
+<summary>
+ Creates an image registry credential with a generated SecureParameter for the password.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.WindowsUsername(Farmer.Builders.ContainerService.AksConfig,System.String)">
+<summary>
+ Sets the windows admin username for the AKS cluster.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.ServicePrincipalClientID(Farmer.Builders.ContainerService.AksConfig,System.String)">
+<summary>
+ Sets the client id of the service principal for the AKS cluster.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.NetworkProfile(Farmer.Builders.ContainerService.AksConfig,Farmer.Builders.ContainerService.NetworkProfileConfig)">
+<summary>
+ Sets the network profile for the AKS cluster.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.Name(Farmer.Builders.ContainerService.AksConfig,System.String)">
+<summary>
+ Sets the name of the AKS cluster.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.LinuxProfile(Farmer.Builders.ContainerService.AksConfig,System.String,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Sets the linux profile for the AKS cluster.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.EnableRBAC(Farmer.Builders.ContainerService.AksConfig)">
+<summary>
+ Enable Kubernetes Role-Based Access Control.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.DnsPrefix(Farmer.Builders.ContainerService.AksConfig,System.String)">
+<summary>
+ Sets the DNS prefix of the AKS cluster.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.AddIdentity(Farmer.Builders.ContainerService.AksConfig,Farmer.Identity.UserAssignedIdentity)">
+<summary>
+ Sets the managed identity on this cluster.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.AddAgentPools(Farmer.Builders.ContainerService.AksConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.Builders.ContainerService.AgentPoolConfig})">
+<summary>
+ Adds agent pools to the AKS cluster.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AksBuilder.AddAgentPool(Farmer.Builders.ContainerService.AksConfig,Farmer.Builders.ContainerService.AgentPoolConfig)">
+<summary>
+ Adds an agent pool to the AKS cluster.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AzureCniBuilder.ServiceCidr(Farmer.Builders.ContainerService.NetworkProfileConfig,System.String)">
+<summary>
+ Sets the service cidr to a network other than the default 10.224.0.0/16.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AzureCniBuilder.DockerBridge(Farmer.Builders.ContainerService.NetworkProfileConfig,System.String)">
+<summary>
+ Sets the docker bridge CIDR to a network other than the default 17.17.0.1/16.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AzureCniBuilder.DnsServiceIP(Farmer.Builders.ContainerService.NetworkProfileConfig,System.String)">
+<summary>
+ Sets the DNS service IP - must be within the service CIDR, default is the second address in the service CIDR.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AgentPoolBuilder.VmSize(Farmer.Builders.ContainerService.AgentPoolConfig,Farmer.Vm.VMSize)">
+<summary>
+ Sets the size of the VM&apos;s in the agent pool.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AgentPoolBuilder.VNetName(Farmer.Builders.ContainerService.AgentPoolConfig,System.String)">
+<summary>
+ Sets the name of a virtual network in the same region where this AKS cluster should be attached.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AgentPoolBuilder.UserMode(Farmer.Builders.ContainerService.AgentPoolConfig)">
+<summary>
+ Sets the agent pool to user mode.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AgentPoolBuilder.SubnetName(Farmer.Builders.ContainerService.AgentPoolConfig,System.String)">
+<summary>
+ Sets the name of a virtual network subnet where this AKS cluster should be attached.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AgentPoolBuilder.OsType(Farmer.Builders.ContainerService.AgentPoolConfig,Farmer.OS)">
+<summary>
+ Sets the OS type of the VM&apos;s in the agent pool.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AgentPoolBuilder.Name(Farmer.Builders.ContainerService.AgentPoolConfig,System.String)">
+<summary>
+ Sets the name of the agent pool.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AgentPoolBuilder.DiskSizeGB(Farmer.Builders.ContainerService.AgentPoolConfig,System.Int32)">
+<summary>
+ Sets the disk size for the VM&apos;s in the agent pool.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.AgentPoolBuilder.Count(Farmer.Builders.ContainerService.AgentPoolConfig,System.Int32)">
+<summary>
+ Sets the count of VM&apos;s in the agent pool.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerService.NetworkProfileConfig.ServiceCidr">
+<summary>
+ Private IP address CIDR for services in the cluster which should not overlap with the vnet
+ for the cluster or peer vnets. Defaults to 10.244.0.0/16.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerService.NetworkProfileConfig.DockerBridgeCidr">
+<summary>
+ Usually the default 172.17.0.1/16 is acceptable.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerService.NetworkProfileConfig.DnsServiceIP">
+<summary>
+ If no address is specified, this will use the 2nd address in the service address CIDR
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerService.aks">
+<summary>
+ Container service is widely known as aks, so supporting that, too.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerService.aksBuilder">
+<summary>
+ Builds an AKS cluster ARM resource definition
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerService.makeLinuxProfile``2(``0,``1)">
+<summary>
+ Builds a Linux Profile from a username and list of ssh public keys
+</summary>
+</member>
+<member name="P:Farmer.Builders.ContainerService.agentPool">
+<summary>
+ Builds an AKS cluster agent pool ARM resource definition
+</summary>
+</member>
+<member name="M:Farmer.Builders.DataLake.DataLakeBuilder.Name(Farmer.Builders.DataLake.DataLakeConfig,System.String)">
+<summary>
+ Sets the name of the data lake.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.Timeout(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,System.String)">
+<summary>
+ Timeout for script execution in ISO 8601 format, e.g. PT30M.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.Timeout(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,System.TimeSpan)">
+<summary>
+ Timeout for script execution.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.SupportingScriptUris(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,Microsoft.FSharp.Collections.FSharpList{System.Uri})">
+<summary>
+ Additional URIs to download scripts that the primary script relies on.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.RetentionInterval(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,System.Int32)">
+<summary>
+ Time to retain the container instance that runs the script - 1 to 26 hours.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.PrimaryScriptUri(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,System.Uri)">
+<summary>
+ URI to download the primary script to execute.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.Name(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the container instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.Identity(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,Farmer.Identity.UserAssignedIdentity)">
+<summary>
+ Sets the user assigned managed identity under which this deployment script runs. If none is supplied, a new identity will be automatically created.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.ForceUpdate(Farmer.Builders.DeploymentScript.DeploymentScriptConfig)">
+<summary>
+ Ensures that your script be run on deployment even if there are no changes since the last deployment.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.EnvironmentVariables(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,System.Collections.Generic.IEnumerable{System.Tuple{System.String,Farmer.EnvVar}})">
+<summary>
+ Environment variables for the script.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.DependsOn(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,Farmer.IBuilder)">
+<summary>
+ Sets a dependency for the deployment script. Use this if you want to ensure that the script runs only after another resource has been deployed.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.Content(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,System.String)">
+<summary>
+ The contents of the script to execute.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.Cli(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,Farmer.Arm.DeploymentScript.CliVersion)">
+<summary>
+ Specify the CLI type and version to use - defaults to the &apos;az cli&apos; version 2.12.1.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.CleanupPreference(Farmer.Builders.DeploymentScript.DeploymentScriptConfig)">
+<summary>
+ Specify deployment script should only be cleaned up if it succeeds so failures cn be inspected.
+</summary>
+</member>
+<member name="M:Farmer.Builders.DeploymentScript.DeploymentScriptBuilder.Arguments(Farmer.Builders.DeploymentScript.DeploymentScriptConfig,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Arguments which will become a space separated string of arguments passed to the script.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsZoneBuilder.ServerName(Farmer.Builders.Dns.DnsZoneConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the DNS Zone.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsZoneBuilder.RecordType(Farmer.Builders.Dns.DnsZoneConfig,Farmer.Dns.DnsZoneType)">
+<summary>
+ Sets the type of the DNS Zone.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsZoneBuilder.AddRecords(Farmer.Builders.Dns.DnsZoneConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.Builders.Dns.DnsZoneRecordConfig})">
+<summary>
+ Add DNS records to the DNS Zone.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsMxRecordBuilder.RecordValue(Farmer.Builders.Dns.MxRecordProperties,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.Int32,System.String}})">
+<summary>
+ Add MX records.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsMxRecordBuilder.RecordTTL(Farmer.Builders.Dns.MxRecordProperties,System.Int32)">
+<summary>
+ Sets the TTL of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsMxRecordBuilder.RecordName(Farmer.Builders.Dns.CNameRecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the name of the record set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsTxtRecordBuilder.RecordValues(Farmer.Builders.Dns.TxtRecordProperties,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Add TXT values
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsTxtRecordBuilder.RecordTTL(Farmer.Builders.Dns.TxtRecordProperties,System.Int32)">
+<summary>
+ Sets the TTL of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsTxtRecordBuilder.RecordName(Farmer.Builders.Dns.CNameRecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the name of the record set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsPtrRecordBuilder.RecordTTL(Farmer.Builders.Dns.PtrRecordProperties,System.Int32)">
+<summary>
+ Sets the TTL of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsPtrRecordBuilder.RecordPtrdNames(Farmer.Builders.Dns.PtrRecordProperties,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Add PTR names
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsPtrRecordBuilder.RecordName(Farmer.Builders.Dns.CNameRecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the name of the record set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsNsRecordBuilder.RecordTTL(Farmer.Builders.Dns.NsRecordProperties,System.Int32)">
+<summary>
+ Sets the TTL of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsNsRecordBuilder.RecordNsdNames(Farmer.Builders.Dns.NsRecordProperties,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Add NSD names
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsNsRecordBuilder.RecordName(Farmer.Builders.Dns.CNameRecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the name of the record set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsAaaaRecordBuilder.RecordTargetResource(Farmer.Builders.Dns.AaaaRecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the target resource of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsAaaaRecordBuilder.RecordTTL(Farmer.Builders.Dns.AaaaRecordProperties,System.Int32)">
+<summary>
+ Sets the TTL of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsAaaaRecordBuilder.RecordName(Farmer.Builders.Dns.CNameRecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the name of the record set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsAaaaRecordBuilder.RecordAddress(Farmer.Builders.Dns.AaaaRecordProperties,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Sets the ipv6 address.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsARecordBuilder.RecordTargetResource(Farmer.Builders.Dns.ARecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the target resource of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsARecordBuilder.RecordTTL(Farmer.Builders.Dns.ARecordProperties,System.Int32)">
+<summary>
+ Sets the TTL of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsARecordBuilder.RecordName(Farmer.Builders.Dns.CNameRecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the name of the record set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsARecordBuilder.RecordAddress(Farmer.Builders.Dns.ARecordProperties,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Sets the ipv4 address.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsCNameRecordBuilder.RecordTargetResource(Farmer.Builders.Dns.CNameRecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the target resource of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsCNameRecordBuilder.RecordTTL(Farmer.Builders.Dns.CNameRecordProperties,System.Int32)">
+<summary>
+ Sets the TTL of the record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsCNameRecordBuilder.RecordName(Farmer.Builders.Dns.CNameRecordProperties,Farmer.ResourceName)">
+<summary>
+ Sets the name of the record set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Dns.DnsCNameRecordBuilder.RecordCName(Farmer.Builders.Dns.CNameRecordProperties,System.String)">
+<summary>
+ Sets the canonical name for this CNAME record.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.UseHns(Farmer.Builders.Storage.StorageAccountConfig,System.Boolean)">
+<summary>
+ Enables support for hierarchical namespace, also known as Data Lake Storage Gen2.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.Tags(Farmer.Builders.Storage.StorageAccountConfig,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}})">
+<summary>
+ Adds tags to the storage account
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.Tag(Farmer.Builders.Storage.StorageAccountConfig,System.String,System.String)">
+<summary>
+ Adds a tag to the storage account
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.StaticWebsiteErrorPage(Farmer.Builders.Storage.StorageAccountConfig,System.String)">
+<summary>
+ Sets the error page for the static website.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.StaticWebsite(Farmer.Builders.Storage.StorageAccountConfig,System.String,System.String)">
+<summary>
+ Enable static website support, using the supplied local content path to the storage account&apos;s $web folder as a post-deployment task, and setting the index page as supplied.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.Sku(Farmer.Builders.Storage.StorageAccountConfig,Farmer.Storage.Sku)">
+<summary>
+ Sets the sku of the storage account.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.Name(Farmer.Builders.Storage.StorageAccountConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the storage account.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.AddQueues(Farmer.Builders.Storage.StorageAccountConfig,System.Collections.Generic.IEnumerable{System.String})">
+<summary>
+ Adds a set of queues to the storage account.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.AddQueue(Farmer.Builders.Storage.StorageAccountConfig,System.String)">
+<summary>
+ Adds a single queue to the storage account.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.AddPublicContainer(Farmer.Builders.Storage.StorageAccountConfig,System.String)">
+<summary>
+ Adds container with anonymous read access for blobs and containers.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.AddPrivateContainer(Farmer.Builders.Storage.StorageAccountConfig,System.String)">
+<summary>
+ Adds private container.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.AddLifecycleRule(Farmer.Builders.Storage.StorageAccountConfig,System.String,Microsoft.FSharp.Collections.FSharpList{Farmer.Storage.LifecyclePolicyAction},Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Adds a lifecycle rule
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.AddFileShareWithQuota(Farmer.Builders.Storage.StorageAccountConfig,System.String,System.Int32)">
+<summary>
+ Adds a file share with specified quota.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.AddFileShare(Farmer.Builders.Storage.StorageAccountConfig,System.String)">
+<summary>
+ Adds a file share with no quota.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccountBuilder.AddBlobContainer(Farmer.Builders.Storage.StorageAccountConfig,System.String)">
+<summary>
+ Adds container with anonymous read access for blobs only.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.Tags">
+<summary>
+ Tags to apply to the storage account
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.StaticWebsite">
+<summary>
+ Static Website Settings
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.Rules">
+<summary>
+ Rules
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.Queues">
+<summary>
+ Queues
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.FileShares">
+<summary>
+ File shares
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.Containers">
+<summary>
+ Containers for the storage account.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.EnableDataLake">
+<summary>
+ Whether to enable Data Lake Storage Gen2.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.Sku">
+<summary>
+ The sku of the storage account.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.Name">
+<summary>
+ The name of the storage account.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.WebsitePrimaryEndpoint">
+<summary>
+ Gets the Primary endpoint for static website (if enabled)
+</summary>
+</member>
+<member name="P:Farmer.Builders.Storage.StorageAccountConfig.Key">
+<summary>
+ Gets the ARM expression path to the key of this storage account.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccount.getConnectionString(Farmer.Storage.StorageAccountName,Microsoft.FSharp.Core.FSharpOption{System.String})">
+<summary>
+ Gets an ARM Expression connection string for any Storage Account.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Storage.StorageAccount.getConnectionString(Farmer.ResourceId)">
+<summary>
+ Gets an ARM Expression connection string for any Storage Account.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Redis.RedisBuilder.Sku(Farmer.Builders.Redis.RedisConfig,Farmer.Redis.Sku)">
+<summary>
+ Sets the sku of the Redis instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Redis.RedisBuilder.Name(Farmer.Builders.Redis.RedisConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the Redis instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Redis.RedisBuilder.EnableNonSsl(Farmer.Builders.Redis.RedisConfig)">
+<summary>
+ Specifies whether the non-ssl Redis server port (6379) is enabled.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Redis.RedisBuilder.Capacity(Farmer.Builders.Redis.RedisConfig,System.Int32)">
+<summary>
+ Sets the capacity of the Redis instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Redis.RedisBuilder.AddSettings(Farmer.Builders.Redis.RedisConfig,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.Int32}})">
+<summary>
+ Adds a list of custom settings in the form &quot;key&quot; &quot;value&quot; to the Redis configuration.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Redis.RedisBuilder.AddSetting(Farmer.Builders.Redis.RedisConfig,System.String,System.String)">
+<summary>
+ Adds a custom setting to the Redis configuration
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.SecretBuilder.DependsOn(Farmer.Builders.KeyVault.SecretConfig,Farmer.IBuilder)">
+<summary>
+ Sets a dependency for the web app.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.Uri(Farmer.Builders.KeyVault.KeyVaultBuilderState,Microsoft.FSharp.Core.FSharpOption{System.Uri})">
+<summary>
+ Sets the URI of the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.Sku(Farmer.Builders.KeyVault.KeyVaultBuilderState,Farmer.KeyVault.Sku)">
+<summary>
+ Sets the sku of the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.SetTenantId(Farmer.Builders.KeyVault.KeyVaultBuilderState,Farmer.ArmExpression)">
+<summary>
+ Sets the Tenant ID of the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.Name(Farmer.Builders.KeyVault.KeyVaultBuilderState,Farmer.ResourceName)">
+<summary>
+ Sets the name of the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.EnableVmAccess(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Allows VM access to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.EnableSoftDeletionWithPurgeProtection(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Disables VM access to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.EnableSoftDeletion(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Enables VM access to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.EnableResourceManagerAccess(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Allows Resource Manager access to the vault so that you can deploy secrets during ARM deployments.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.EnableRecoveryMode(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Sets the Creation Mode to Recovery.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.EnableDiskEncryptionAccess(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Allows Azure Disk Encyption service access to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.EnableBypass(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Allows Azure traffic can bypass network rules.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.DisableVmAccess(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Disallows VM access to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.DisableResourceManagerAccess(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Disallows Resource Manager access to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.DisableRecoveryMode(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Sets the Creation Mode to Default.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.DisableDiskEncryptionAccess(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Disallows Azure Disk Encyption service access to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.DisableBypass(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Disallows Azure traffic can bypass network rules.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.DenyDefaultTraffic(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Deny traffic when no rule from ipRules and virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.AllowDefaultTraffic(Farmer.Builders.KeyVault.KeyVaultBuilderState)">
+<summary>
+ Allow traffic if no rule from ipRules and virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.AddVnetRule(Farmer.Builders.KeyVault.KeyVaultBuilderState,System.String)">
+<summary>
+ Adds a virtual network rule. This is the full resource id of a vnet subnet, such as &apos;/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1&apos;.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.AddSecrets(Farmer.Builders.KeyVault.KeyVaultBuilderState,System.Collections.Generic.IEnumerable{Farmer.Builders.KeyVault.SecretConfig})">
+<summary>
+ Allows to add multiple secrets to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.AddSecret(Farmer.Builders.KeyVault.KeyVaultBuilderState,Farmer.Builders.KeyVault.SecretConfig)">
+<summary>
+ Allows to add a secret to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.AddIpRule(Farmer.Builders.KeyVault.KeyVaultBuilderState,System.String)">
+<summary>
+ Adds an IP address rule. This can be an IPv4 address range in CIDR notation, such as &apos;124.56.78.91&apos; (simple IP address) or &apos;124.56.78.0/24&apos; (all addresses that start with 124.56.78).
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.AddAccessPolicy(Farmer.Builders.KeyVault.KeyVaultBuilderState,Farmer.Builders.KeyVault.AccessPolicyConfig)">
+<summary>
+ Adds an access policy to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.KeyVaultBuilder.AddAccessPolicies(Farmer.Builders.KeyVault.KeyVaultBuilderState,Microsoft.FSharp.Collections.FSharpList{Farmer.Builders.KeyVault.AccessPolicyConfig})">
+<summary>
+ Adds access policies to the vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicy.findUsers(System.Collections.Generic.IEnumerable{System.String})">
+<summary>
+ Locates users in Azure Active Directory based on the supplied email addresses.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicy.findGroups(System.Collections.Generic.IEnumerable{System.String})">
+<summary>
+ Locates groups in Azure Active Directory based on the supplied group names.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicy.create(Farmer.ObjectId,Microsoft.FSharp.Core.FSharpOption{Microsoft.FSharp.Collections.FSharpList{Farmer.KeyVault.Secret}})">
+<summary>
+ Quickly creates an access policy for the supplied ObjectId. If no permissions are supplied, defaults to GET and LIST.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicy.create(Farmer.Identity.SystemIdentity,Microsoft.FSharp.Core.FSharpOption{Microsoft.FSharp.Collections.FSharpList{Farmer.KeyVault.Secret}})">
+<summary>
+ Quickly creates an access policy for the supplied Identity. If no permissions are supplied, defaults to GET and LIST.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicy.create(Farmer.Builders.UserAssignedIdentity.UserAssignedIdentityConfig,Microsoft.FSharp.Core.FSharpOption{Microsoft.FSharp.Collections.FSharpList{Farmer.KeyVault.Secret}})">
+<summary>
+ Quickly creates an access policy for the supplied Identity. If no permissions are supplied, defaults to GET and LIST.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicy.create(Farmer.PrincipalId,Microsoft.FSharp.Core.FSharpOption{Microsoft.FSharp.Collections.FSharpList{Farmer.KeyVault.Secret}})">
+<summary>
+ Quickly creates an access policy for the supplied Principal. If no permissions are supplied, defaults to GET and LIST.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicyBuilder.SetStoragePermissions(Farmer.Builders.KeyVault.AccessPolicyConfig,System.Collections.Generic.IEnumerable{Farmer.KeyVault.Storage})">
+<summary>
+ Sets the Storage permissions of the permission set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicyBuilder.SetSecretPermissions(Farmer.Builders.KeyVault.AccessPolicyConfig,System.Collections.Generic.IEnumerable{Farmer.KeyVault.Secret})">
+<summary>
+ Sets the Secret permissions of the permission set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicyBuilder.SetKeyPermissions(Farmer.Builders.KeyVault.AccessPolicyConfig,System.Collections.Generic.IEnumerable{Farmer.KeyVault.Key})">
+<summary>
+ Sets the Key permissions of the permission set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicyBuilder.SetCertificatePermissions(Farmer.Builders.KeyVault.AccessPolicyConfig,System.Collections.Generic.IEnumerable{Farmer.KeyVault.Certificate})">
+<summary>
+ Sets the Certificate permissions of the permission set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicyBuilder.ObjectId(Farmer.Builders.KeyVault.AccessPolicyConfig,Farmer.ArmExpression)">
+<summary>
+ Sets the Object ID of the permission set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.KeyVault.AccessPolicyBuilder.ApplicationId(Farmer.Builders.KeyVault.AccessPolicyConfig,System.Guid)">
+<summary>
+ Sets the Application ID of the permission set.
+</summary>
+</member>
+<member name="P:Farmer.Builders.KeyVault.KeyVaultConfigSettings.SoftDelete">
+<summary>
+ Specifies whether Soft Deletion is enabled for the vault
+</summary>
+</member>
+<member name="P:Farmer.Builders.KeyVault.KeyVaultConfigSettings.AzureDiskEncryptionAccess">
+<summary>
+ Specifies whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys.
+</summary>
+</member>
+<member name="P:Farmer.Builders.KeyVault.KeyVaultConfigSettings.ResourceManagerAccess">
+<summary>
+ Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault.
+</summary>
+</member>
+<member name="P:Farmer.Builders.KeyVault.KeyVaultConfigSettings.VirtualMachineAccess">
+<summary>
+ Specifies whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Bastion.BastionBuilder.VNet(Farmer.Builders.Bastion.BastionConfig,System.String)">
+<summary>
+ Sets the virtual network where this bastion host is attached.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Bastion.BastionBuilder.Name(Farmer.Builders.Bastion.BastionConfig,System.String)">
+<summary>
+ Sets the name of the bastion host.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetwork.VirtualNetworkBuilder.Name(Farmer.Builders.VirtualNetwork.VirtualNetworkConfig,System.String)">
+<summary>
+ Sets the name of the virtual network
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetwork.VirtualNetworkBuilder.AddSubnets(Farmer.Builders.VirtualNetwork.VirtualNetworkConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.Builders.VirtualNetwork.SubnetConfig})">
+<summary>
+ Adds subnets
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetwork.VirtualNetworkBuilder.AddAddressSpaces(Farmer.Builders.VirtualNetwork.VirtualNetworkConfig,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Adds address spaces prefixes
+</summary>
+</member>
+<member name="T:Farmer.Builders.VirtualNetwork.AddressSpaceBuilder">
+<summary>
+ Builder for an address space with automatically carved subnets.
+</summary>
+</member>
+<member name="T:Farmer.Builders.VirtualNetwork.AddressSpaceSpec">
+<summary>
+ A specification building an address space and subnets.
+</summary>
+</member>
+<member name="T:Farmer.Builders.VirtualNetwork.SubnetBuildSpec">
+<summary>
+ Specification for a subnet to build from an address space.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetwork.SubnetBuilder.Prefix(Farmer.Builders.VirtualNetwork.SubnetConfig,System.String)">
+<summary>
+ Sets the network prefix in CIDR notation
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetwork.SubnetBuilder.Name(Farmer.Builders.VirtualNetwork.SubnetConfig,System.String)">
+<summary>
+ Sets the name of the subnet
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetwork.SubnetBuilder.AddDelegations(Farmer.Builders.VirtualNetwork.SubnetConfig,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Sets the network prefix in CIDR notation
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.SqlManagedInstances">
+<summary>
+ Microsoft.Sql/managedInstances
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.ServiceFabricMeshNetworks">
+<summary>
+ Microsoft.ServiceFabricMesh/networks
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.NetappVolumes">
+<summary>
+ Microsoft.Netapp/volumes
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.MachineLearningWorkspaces">
+<summary>
+ Microsoft.MachineLearningServices/workspaces
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.DatabricksWorkspaces">
+<summary>
+ Microsoft.Databricks/workspaces
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.CosmosDBClusters">
+<summary>
+ Microsoft.AzureCosmosDB/clusters
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.ContainerGroups">
+<summary>
+ Microsoft.ContainerInstance/containerGroups
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.BatchAccounts">
+<summary>
+ Microsoft.Batch/batchAccounts
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.BareMetalVMware">
+<summary>
+ Microsoft.BareMetal/AzureVMware
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.BareMetalCrayServers">
+<summary>
+ Microsoft.BareMetal/CrayServers
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetwork.SubnetDelegationService.ApiManagementService">
+<summary>
+ Microsoft.ApiManagement/service
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetwork.buildSubnetDelegations(System.String,System.Int32,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Builds a subnet of a certain CIDR block size with service delegations.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetwork.buildSubnet(System.String,System.Int32)">
+<summary>
+ Builds a subnet of a certain CIDR block size.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.VmSize(Farmer.Builders.VirtualMachine.VmConfig,Farmer.Vm.VMSize)">
+<summary>
+ Sets the size of the VM.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.Username(Farmer.Builders.VirtualMachine.VmConfig,System.String)">
+<summary>
+ Sets the admin username of the VM (note: the password is supplied as a securestring parameter to the generated ARM template).
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.SubnetPrefix(Farmer.Builders.VirtualMachine.VmConfig,System.String)">
+<summary>
+ Sets the subnet prefix of the VM.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.SubnetName(Farmer.Builders.VirtualMachine.VmConfig,Farmer.ResourceName)">
+<summary>
+ Sets the subnet name of the VM.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.StorageAccountNameExternal(Farmer.Builders.VirtualMachine.VmConfig,Farmer.ExternalKind)">
+<summary>
+ Turns on diagnostics support using an externally managed storage account.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.StorageAccountName(Farmer.Builders.VirtualMachine.VmConfig)">
+<summary>
+ Turns on diagnostics support using an automatically created storage account.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.OsDisk(Farmer.Builders.VirtualMachine.VmConfig,System.Int32,Farmer.Vm.DiskType)">
+<summary>
+ Sets the size and type of the OS disk for the VM.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.Name(Farmer.Builders.VirtualMachine.VmConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the VM.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.LinkToVNet(Farmer.Builders.VirtualMachine.VmConfig,Farmer.ResourceName)">
+<summary>
+ Uses an external VNet instead of creating a new one.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.DomainNamePrefix(Farmer.Builders.VirtualMachine.VmConfig,Microsoft.FSharp.Core.FSharpOption{System.String})">
+<summary>
+ Sets the prefix for the domain name of the VM.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.ConfigureOs(Farmer.Builders.VirtualMachine.VmConfig,Farmer.Vm.ImageDefinition)">
+<summary>
+ Sets the operating system of the VM. A set of samples is provided in the `CommonImages` module.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.AddressPrefix(Farmer.Builders.VirtualMachine.VmConfig,System.String)">
+<summary>
+ Sets the IP address prefix of the VM.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.AddSsd(Farmer.Builders.VirtualMachine.VmConfig,System.Int32)">
+<summary>
+ Adds a SSD data disk to the VM with a specific size.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.AddSlowDisk(Farmer.Builders.VirtualMachine.VmConfig,System.Int32)">
+<summary>
+ Adds a conventional (non-SSD) data disk to the VM with a specific size.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualMachine.VirtualMachineBuilder.AddDisk(Farmer.Builders.VirtualMachine.VmConfig,System.Int32,Farmer.Vm.DiskType)">
+<summary>
+ Adds a data disk to the VM with a specific size and type.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServicePlan.ServicePlanBuilder.WorkerSize(Farmer.Builders.ServicePlan.ServicePlanConfig,Farmer.WebApp.WorkerSize)">
+<summary>
+ Sets the size of the service plan worker.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServicePlan.ServicePlanBuilder.Sku(Farmer.Builders.ServicePlan.ServicePlanConfig,Farmer.WebApp.Sku)">
+<summary>
+ Sets the sku of the service plan.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServicePlan.ServicePlanBuilder.Serverless(Farmer.Builders.ServicePlan.ServicePlanConfig)">
+<summary>
+ Configures this server farm to host serverless functions, not web apps.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServicePlan.ServicePlanBuilder.OperatingSystem(Farmer.Builders.ServicePlan.ServicePlanConfig,Farmer.OS)">
+<summary>
+ Sets the operating system
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServicePlan.ServicePlanBuilder.NumberOfWorkers(Farmer.Builders.ServicePlan.ServicePlanConfig,System.Int32)">
+<summary>
+ Sets the number of instances on the service plan.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServicePlan.ServicePlanBuilder.Name(Farmer.Builders.ServicePlan.ServicePlanConfig,System.String)">
+<summary>
+ Sets the name of the Server Farm.
+</summary>
+</member>
+<member name="M:Farmer.Builders.AppInsights.AppInsightsBuilder.SamplingPercentage(Farmer.Builders.AppInsights.AppInsightsConfig,System.Int32)">
+<summary>
+ Sets the name of the App Insights instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.AppInsights.AppInsightsBuilder.Name(Farmer.Builders.AppInsights.AppInsightsConfig,System.String)">
+<summary>
+ Sets the name of the App Insights instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.AppInsights.AppInsightsBuilder.DisableIpMasking(Farmer.Builders.AppInsights.AppInsightsConfig)">
+<summary>
+ Sets the name of the App Insights instance.
+</summary>
+</member>
+<member name="P:Farmer.Builders.AppInsights.AppInsightsConfig.InstrumentationKey">
+<summary>
+ Gets the ARM expression path to the instrumentation key of this App Insights instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.ZipDeploy(Farmer.Builders.WebApp.WebAppConfig,System.String)">
+<summary>
+ Specifies a folder path or a zip file containing the web application to install as a post-deployment task.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.WorkerSize(Farmer.Builders.WebApp.WebAppConfig,Farmer.WebApp.WorkerSize)">
+<summary>
+ Sets the size of the service plan worker.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.WebSockets(Farmer.Builders.WebApp.WebAppConfig)">
+<summary>
+ Enables websockets for this webapp.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.UseAppInsights(Farmer.Builders.WebApp.WebAppConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the automatically-created app insights instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.ServicePlanName(Farmer.Builders.WebApp.WebAppConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the service plan.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.RuntimeStack(Farmer.Builders.WebApp.WebAppConfig,Farmer.Builders.WebApp.Runtime)">
+<summary>
+ Sets the runtime stack
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.RunFromPackage(Farmer.Builders.WebApp.WebAppConfig)">
+<summary>
+ Sets the web app to use &quot;run from package&quot; deployment capabilities.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.OperatingSystem(Farmer.Builders.WebApp.WebAppConfig,Farmer.OS)">
+<summary>
+ Sets the operating system
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.NumberOfWorkers(Farmer.Builders.WebApp.WebAppConfig,System.Int32)">
+<summary>
+ Sets the number of instances on the service plan.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.NodeVersion(Farmer.Builders.WebApp.WebAppConfig,System.String)">
+<summary>
+ Sets the node version of the web app.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.Name(Farmer.Builders.WebApp.WebAppConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the web app.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.LinkUnmanagedAppInsights(Farmer.Builders.WebApp.WebAppConfig,Farmer.ResourceId)">
+<summary>
+ Instead of creating a new AI instance, configure this webapp to point to an unmanaged AI instance.
+ A dependency will not be set for this instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.LinkToUnmanagedServicePlan(Farmer.Builders.WebApp.WebAppConfig,Farmer.ResourceId)">
+<summary>
+ Instead of creating a new service plan instance, configure this webapp to point to another unmanaged service plan instance.
+ A dependency will automatically be set for this instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.LinkToServicePlan(Farmer.Builders.WebApp.WebAppConfig,Farmer.ResourceName)">
+<summary>
+ Instead of creating a new service plan instance, configure this webapp to point to another Farmer-managed service plan instance.
+ A dependency will automatically be set for this instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.LinkToAi(Farmer.Builders.WebApp.WebAppConfig,Farmer.ResourceName)">
+<summary>
+ Instead of creating a new AI instance, configure this webapp to point to another Farmer-managed AI instance.
+ A dependency will automatically be set for this instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.HttpsOnly(Farmer.Builders.WebApp.WebAppConfig)">
+<summary>
+ Disables http for this webapp so that only https is used.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.Http20Enabled(Farmer.Builders.WebApp.WebAppConfig)">
+<summary>
+ Enables HTTP 2.0 for this webapp.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.EnableCorsCredentials(Farmer.Builders.WebApp.WebAppConfig)">
+<summary>
+ Allows CORS requests with credentials.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.EnableCors(Farmer.Builders.WebApp.WebAppConfig,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ sets the list of origins that should be allowed to make cross-origin calls. Use AllOrigins to allow all.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.DockerImage(Farmer.Builders.WebApp.WebAppConfig,System.String,System.String)">
+<summary>
+ Specifies a docker image to use from the registry (linux only), and the startup command to execute.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.DockerCI(Farmer.Builders.WebApp.WebAppConfig)">
+<summary>
+ Have your custom Docker image automatically re-deployed when a new version is pushed to e.g. Docker hub.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.DockerAcrCredentials(Farmer.Builders.WebApp.WebAppConfig,System.String)">
+<summary>
+ Have your custom Docker image automatically re-deployed when a new version is pushed to e.g. Docker hub.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.DependsOn(Farmer.Builders.WebApp.WebAppConfig,Farmer.IBuilder)">
+<summary>
+ Sets a dependency for the web app.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.DeactivateAppInsights(Farmer.Builders.WebApp.WebAppConfig)">
+<summary>
+ Removes any automatic app insights creation, configuration and settings for this webapp.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.ClientAffinityEnabled(Farmer.Builders.WebApp.WebAppConfig)">
+<summary>
+ Disables client affinity for this webapp.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.AlwaysOn(Farmer.Builders.WebApp.WebAppConfig)">
+<summary>
+ Sets &quot;Always On&quot; flag
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.AddSettings(Farmer.Builders.WebApp.WebAppConfig,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}})">
+<summary>
+ Sets a list of app setting of the web app in the form &quot;key&quot; &quot;value&quot;.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.AddSetting(Farmer.Builders.WebApp.WebAppConfig,System.String,System.String)">
+<summary>
+ Sets an app setting of the web app in the form &quot;key&quot; &quot;value&quot;.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.AddSecret(Farmer.Builders.WebApp.WebAppConfig,System.String)">
+<summary>
+ Creates an app setting of the web app whose value will be supplied as a secret parameter.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.AddConnectionStrings(Farmer.Builders.WebApp.WebAppConfig,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Creates a set of connection strings of the web app whose values will be supplied as secret parameters.
+</summary>
+</member>
+<member name="M:Farmer.Builders.WebApp.WebAppBuilder.AddConnectionString(Farmer.Builders.WebApp.WebAppConfig,System.String)">
+<summary>
+ Creates a set of connection strings of the web app whose values will be supplied as secret parameters.
+</summary>
+</member>
+<member name="P:Farmer.Builders.WebApp.WebAppConfig.ServicePlanName">
+<summary>
+ Gets the Service Plan name for this web app.
+</summary>
+</member>
+<member name="P:Farmer.Builders.WebApp.WebAppConfig.ServicePlanId">
+<summary>
+ Gets this web app&apos;s Server Plan&apos;s full resource ID.
+</summary>
+</member>
+<member name="P:Farmer.Builders.WebApp.WebAppConfig.PublishingPassword">
+<summary>
+ Gets the ARM expression path to the publishing password of this web app.
+</summary>
+</member>
+<member name="P:Farmer.Builders.WebApp.WebAppConfig.AppInsightsName">
+<summary>
+ Gets the App Insights name for this web app, if it exists.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.ZipDeploy(Farmer.Builders.Functions.FunctionsConfig,System.String)">
+<summary>
+ Specifies a folder path or a zip file containing the function app to install as a post-deployment task.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.StorageAccountName(Farmer.Builders.Functions.FunctionsConfig,System.String)">
+<summary>
+ Set the name of the storage account instead of using an auto-generated one based on the function instance name.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.ServicePlanName(Farmer.Builders.Functions.FunctionsConfig,System.String)">
+<summary>
+ Sets the name of the service plan hosting the function instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.Runtime(Farmer.Builders.Functions.FunctionsConfig,Farmer.Builders.Functions.FunctionsRuntime)">
+<summary>
+ Sets the runtime of the Functions host.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.OperatingSystem(Farmer.Builders.Functions.FunctionsConfig,Farmer.OS)">
+<summary>
+ Sets the operating system of the Functions host.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.Name(Farmer.Builders.Functions.FunctionsConfig,System.String)">
+<summary>
+ Sets the name of the functions instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.LinkToStorageAccount(Farmer.Builders.Functions.FunctionsConfig,Farmer.ResourceName)">
+<summary>
+ Do not create an automatic storage account; instead, link to a storage account that is created outside of this Functions instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.LinkToServicePlan(Farmer.Builders.Functions.FunctionsConfig,Farmer.ResourceName)">
+<summary>
+ Do not create an automatic service plan; instead, link to a service plan that is created outside of this Functions instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.LinkToAppInsights(Farmer.Builders.Functions.FunctionsConfig,Farmer.ResourceName)">
+<summary>
+ Instead of creating a new AI instance, configure this webapp to point to another AI instance that you are managing
+ yourself.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.HttpsOnly(Farmer.Builders.Functions.FunctionsConfig)">
+<summary>
+ Disables http for this webapp so that only https is used.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.EnableCorsCredentials(Farmer.Builders.Functions.FunctionsConfig)">
+<summary>
+ Allows CORS requests with credentials.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.EnableCors(Farmer.Builders.Functions.FunctionsConfig,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ sets the list of origins that should be allowed to make cross-origin calls. Use AllOrigins to allow all.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.DependsOn(Farmer.Builders.Functions.FunctionsConfig,Farmer.IBuilder)">
+<summary>
+ Sets a dependency for the web app.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.DeactivateAppInsights(Farmer.Builders.Functions.FunctionsConfig)">
+<summary>
+ Removes any automatic app insights creation, configuration and settings for this webapp.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.AppInsightsName(Farmer.Builders.Functions.FunctionsConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the automatically-created app insights instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.AddSettings(Farmer.Builders.Functions.FunctionsConfig,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}})">
+<summary>
+ Sets a list of app setting of the web app in the form &quot;key&quot; &quot;value&quot;.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.AddSetting(Farmer.Builders.Functions.FunctionsConfig,System.String,System.String)">
+<summary>
+ Sets an app setting of the web app in the form &quot;key&quot; &quot;value&quot;.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Functions.FunctionsBuilder.AddSecret(Farmer.Builders.Functions.FunctionsConfig,System.String)">
+<summary>
+ Sets a dependency for the functions app.
+ Creates an app setting of the web app whose value will be supplied as a secret parameter.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.SystemIdentity">
+<summary>
+ Gets the system-created managed principal for the functions instance. It must have been enabled using enable_managed_identity.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.StorageAccountName">
+<summary>
+ Gets the Storage Account name for this functions app.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.StorageAccountKey">
+<summary>
+ Gets the ARM expression path to the storage account key of this functions app.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.ServicePlanName">
+<summary>
+ Gets the Service Plan name for this web app.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.ServicePlanId">
+<summary>
+ Gets this web app&apos;s Server Plan&apos;s full resource ID.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.PublishingPassword">
+<summary>
+ Gets the ARM expression path to the publishing password of this functions app.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.MasterKey">
+<summary>
+ Gets the master key for the functions site
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.DefaultKey">
+<summary>
+ Gets the default key for the functions site
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.AppInsightsName">
+<summary>
+ Gets the App Insights name for this functions app, if it exists.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Functions.FunctionsConfig.AppInsightsKey">
+<summary>
+ Gets the ARM expression path to the app insights key of this functions app, if it exists.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlServerBuilder.UseAzureFirewall(Farmer.Builders.SqlAzure.SqlAzureConfig)">
+<summary>
+ Adds a firewall rule that enables access to other Azure services.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlServerBuilder.Sku(Farmer.Builders.SqlAzure.SqlAzureConfig,Farmer.Sql.PoolSku)">
+<summary>
+ Sets the sku of the server, to be shared on all databases that do not have an explicit sku set.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlServerBuilder.ServerName(Farmer.Builders.SqlAzure.SqlAzureConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the SQL server.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlServerBuilder.PoolCapacity(Farmer.Builders.SqlAzure.SqlAzureConfig,System.Int32)">
+<summary>
+ The per-database min and max DTUs to allocate.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlServerBuilder.PerDbLimits(Farmer.Builders.SqlAzure.SqlAzureConfig,System.Int32,System.Int32)">
+<summary>
+ The per-database min and max DTUs to allocate.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlServerBuilder.Name(Farmer.Builders.SqlAzure.SqlAzureConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the elastic pool. If not set, the name will be generated based off the server name.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlServerBuilder.AdminUsername(Farmer.Builders.SqlAzure.SqlAzureConfig,System.String)">
+<summary>
+ Sets the admin username of the server (note: the password is supplied as a securestring parameter to the generated ARM template).
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlServerBuilder.AddFirewallRule(Farmer.Builders.SqlAzure.SqlAzureConfig,System.String,System.String,System.String)">
+<summary>
+ Adds a firewall rule that enables access to a specific IP Address range.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlServerBuilder.AddDatabases(Farmer.Builders.SqlAzure.SqlAzureConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.Builders.SqlAzure.SqlAzureDbConfig})">
+<summary>
+ The per-database min and max DTUs to allocate.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlDbBuilder.ZoneRedundant(Farmer.Builders.SqlAzure.SqlAzureDbConfig)">
+<summary>
+ States that you already have a SQL license and qualify for Azure Hybrid Benefit discount.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlDbBuilder.UseEncryption(Farmer.Builders.SqlAzure.SqlAzureDbConfig)">
+<summary>
+ Enables encryption of the database.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlDbBuilder.Run(Farmer.Builders.SqlAzure.SqlAzureDbConfig)">
+<summary>
+ Adds a custom firewall rule given a name, start and end IP address range.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlDbBuilder.MaxSize(Farmer.Builders.SqlAzure.SqlAzureDbConfig,System.Int32)">
+<summary>
+ Sets the maximum size of the database, if this database is not part of an elastic pool.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlDbBuilder.DbSku(Farmer.Builders.SqlAzure.SqlAzureDbConfig,Farmer.Sql.DtuSku)">
+<summary>
+ Sets the sku of the database
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlDbBuilder.DbName(Farmer.Builders.SqlAzure.SqlAzureDbConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the database.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlDbBuilder.DbCollation(Farmer.Builders.SqlAzure.SqlAzureDbConfig,System.String)">
+<summary>
+ Sets the collation of the database.
+</summary>
+</member>
+<member name="P:Farmer.Builders.SqlAzure.SqlAzureConfig.PasswordParameter">
+<summary>
+ The key of the parameter that is required by Farmer for the SQL password.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SqlAzure.SqlAzureConfig.ConnectionString(Farmer.Builders.SqlAzure.SqlAzureDbConfig)">
+<summary>
+ Gets a basic .NET connection string using the administrator username / password.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Search.SearchBuilder.Sku(Farmer.Builders.Search.SearchConfig,Farmer.Search.Sku)">
+<summary>
+ Sets the sku of the Azure Search instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Search.SearchBuilder.ReplicaCount(Farmer.Builders.Search.SearchConfig,System.Int32)">
+<summary>
+ Sets the replica count of the Azure Search instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Search.SearchBuilder.PartitionCount(Farmer.Builders.Search.SearchConfig,System.Int32)">
+<summary>
+ Sets the number of partitions of the Azure Search instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Search.SearchBuilder.Name(Farmer.Builders.Search.SearchConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the Azure Search instance.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Search.SearchConfig.QueryKey">
+<summary>
+ Gets an ARM expression for the query key of the search instance.
+</summary>
+</member>
+<member name="P:Farmer.Builders.Search.SearchConfig.AdminKey">
+<summary>
+ Gets an ARM expression for the admin key of the search instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.Throughput(Farmer.Builders.CosmosDb.CosmosDbConfig,System.Int32)">
+<summary>
+ Sets the throughput of the server.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.PublicNetworkAccess(Farmer.Builders.CosmosDb.CosmosDbConfig)">
+<summary>
+ Enables public network access
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.PrivateNetworkAccess(Farmer.Builders.CosmosDb.CosmosDbConfig)">
+<summary>
+ Disables public network access
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.Name(Farmer.Builders.CosmosDb.CosmosDbConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the database.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.LinkToAccount(Farmer.Builders.CosmosDb.CosmosDbConfig,Farmer.Builders.CosmosDb.CosmosDbConfig)">
+<summary>
+ Links the database to an existing server
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.FreeTier(Farmer.Builders.CosmosDb.CosmosDbConfig)">
+<summary>
+ Enables the use of CosmosDB free tier (one per subscription).
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.FailoverPolicy(Farmer.Builders.CosmosDb.CosmosDbConfig,Farmer.CosmosDb.FailoverPolicy)">
+<summary>
+ Sets the failover policy of the database.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.ConsistencyPolicy(Farmer.Builders.CosmosDb.CosmosDbConfig,Farmer.CosmosDb.ConsistencyPolicy)">
+<summary>
+ Sets the consistency policy of the database.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.AddContainers(Farmer.Builders.CosmosDb.CosmosDbConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.Builders.CosmosDb.CosmosDbContainerConfig})">
+<summary>
+ Adds a list of containers to the database.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbBuilder.AccountName(Farmer.Builders.CosmosDb.CosmosDbConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the CosmosDB server.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbContainerBuilder.PartitionKey(Farmer.Builders.CosmosDb.CosmosDbContainerConfig,Microsoft.FSharp.Collections.FSharpList{System.String},Farmer.CosmosDb.IndexKind)">
+<summary>
+ Sets the partition key of the container.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbContainerBuilder.Name(Farmer.Builders.CosmosDb.CosmosDbContainerConfig,System.String)">
+<summary>
+ Sets the name of the container.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbContainerBuilder.ExcludePath(Farmer.Builders.CosmosDb.CosmosDbContainerConfig,System.String)">
+<summary>
+ Excludes a path from the container index.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbContainerBuilder.AddUniqueKey(Farmer.Builders.CosmosDb.CosmosDbContainerConfig,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Adds a unique key constraint to the container (ensures uniqueness within the logical partition).
+</summary>
+</member>
+<member name="M:Farmer.Builders.CosmosDb.CosmosDbContainerBuilder.AddIndex(Farmer.Builders.CosmosDb.CosmosDbContainerConfig,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{Farmer.CosmosDb.IndexDataType,Farmer.CosmosDb.IndexKind}})">
+<summary>
+ Adds an index to the container.
+</summary>
+</member>
+<member name="M:Farmer.Builders.EventHub.EventHubBuilder.Sku(Farmer.Builders.EventHub.EventHubConfig,Farmer.EventHub.EventHubSku)">
+<summary>
+ Sets the sku of the Event Hub instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.EventHub.EventHubBuilder.NamespaceName(Farmer.Builders.EventHub.EventHubConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the Event Hub namespace.
+</summary>
+</member>
+<member name="M:Farmer.Builders.EventHub.EventHubBuilder.Name(Farmer.Builders.EventHub.EventHubConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the Event Hub instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.EventHub.EventHubBuilder.LinkToNamespaceName(Farmer.Builders.EventHub.EventHubConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the Event Hub namespace.
+</summary>
+</member>
+<member name="M:Farmer.Builders.EventHub.EventHubBuilder.DependsOn(Farmer.Builders.EventHub.EventHubConfig,Farmer.IBuilder)">
+<summary>
+ Sets a dependency for the web app.
+</summary>
+</member>
+<member name="P:Farmer.Builders.EventHub.EventHubConfig.DefaultKey">
+<summary>
+ Gets an ARM expression for the path to the key of the default RootManageSharedAccessKey for the entire namespace.
+</summary>
+</member>
+<member name="M:Farmer.Builders.EventHub.EventHubConfig.GetKey(System.String)">
+<summary>
+ Gets an ARM expression for the path to the key of a specific authorization rule for this event hub.
+</summary>
+</member>
+<member name="P:Farmer.Builders.EventHub.AllAuthorizationRights">
+<summary>
+ Shortcut for Manage, Send and Listen rights.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ExpressRoute.ExpressRouteBuilder.Tier(Farmer.Builders.ExpressRoute.ExpressRouteConfig,Farmer.ExpressRoute.Tier)">
+<summary>
+ Sets the tier of the circuit (standard or premium - default standard).
+</summary>
+</member>
+<member name="M:Farmer.Builders.ExpressRoute.ExpressRouteBuilder.ServiceProviderName(Farmer.Builders.ExpressRoute.ExpressRouteConfig,System.String)">
+<summary>
+ Sets the service provider for of the circuit.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ExpressRoute.ExpressRouteBuilder.PeeringLocation(Farmer.Builders.ExpressRoute.ExpressRouteConfig,System.String)">
+<summary>
+ Sets the peering location for this circuit.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ExpressRoute.ExpressRouteBuilder.Name(Farmer.Builders.ExpressRoute.ExpressRouteConfig,System.String)">
+<summary>
+ Sets the name of the circuit
+</summary>
+</member>
+<member name="M:Farmer.Builders.ExpressRoute.ExpressRouteBuilder.Family(Farmer.Builders.ExpressRoute.ExpressRouteConfig,Farmer.ExpressRoute.Family)">
+<summary>
+ Sets the family of the circuit (metered or unlimited - default:metered).
+</summary>
+</member>
+<member name="M:Farmer.Builders.ExpressRoute.ExpressRouteBuilder.EnableGlobalReach(Farmer.Builders.ExpressRoute.ExpressRouteConfig)">
+<summary>
+ Enables Global Reach on the circuit
+</summary>
+</member>
+<member name="M:Farmer.Builders.ExpressRoute.ExpressRouteBuilder.Bandwidth(Farmer.Builders.ExpressRoute.ExpressRouteConfig,System.Int32)">
+<summary>
+ Sets the tier of the circuit (standard or premium).
+</summary>
+</member>
+<member name="M:Farmer.Builders.ExpressRoute.ExpressRouteBuilder.AddPeering(Farmer.Builders.ExpressRoute.ExpressRouteConfig,Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringConfig)">
+<summary>
+ Sets the tier of the circuit (standard or premium).
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteConfig.Peerings">
+<summary>
+ Peerings on this circuit
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteConfig.GlobalReachEnabled">
+<summary>
+ Indicates if global reach is enabled on this circuit
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteConfig.Bandwidth">
+<summary>
+ Bandwidth in Mbps
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteConfig.PeeringLocation">
+<summary>
+ A valid peering location
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteConfig.ServiceProviderName">
+<summary>
+ The service provider name for the circuit
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteConfig.Family">
+<summary>
+ Unlimited or metered data
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteConfig.Tier">
+<summary>
+ Tier of the circuit (standard or premium)
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteConfig.Name">
+<summary>
+ The name of the express route circuit
+</summary>
+</member>
+<member name="M:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringBuilder.PeeringType(Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringConfig,Farmer.ExpressRoute.PeeringType)">
+<summary>
+ Sets the peering type.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringConfig.VlanId">
+<summary>
+ The VLAN tag.
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringConfig.SharedKey">
+<summary>
+ An optional shared key that can be used when creating the peering
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringConfig.SecondaryPeerAddressPrefix">
+<summary>
+ A /30 IP address block to use for the secondary link
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringConfig.PrimaryPeerAddressPrefix">
+<summary>
+ A /30 IP address block to use for the primary link
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringConfig.PeerASN">
+<summary>
+ Peer-side BGP Autonomous System Number (ASN)
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringConfig.AzureASN">
+<summary>
+ Azure-side BGP Autonomous System Number (ASN)
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeeringConfig.PeeringType">
+<summary>
+ The peering type
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeering.SecondaryPeerAddressPrefix">
+<summary>
+ A /30 IP address block to use for the secondary link
+</summary>
+</member>
+<member name="P:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeering.PrimaryPeerAddressPrefix">
+<summary>
+ A /30 IP address block to use for the primary link
+</summary>
+</member>
+<member name="T:Farmer.Builders.ExpressRoute.ExpressRouteCircuitPeering">
+<summary>
+ An IP address block in CIDR notation, such as 10.100.0.0/16.
+</summary>
+</member>
+<member name="P:Farmer.Builders.CognitiveServices.CognitiveServicesConfig.Key">
+<summary>
+ Gets an ARM expression to the key of this Cognitive Services instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.CognitiveServices.CognitiveServices.getKey(Farmer.ResourceId)">
+<summary>
+ Gets an ARM Expression key for any Cognitives Services instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerRegistry.ContainerRegistryBuilder.Sku(Farmer.Builders.ContainerRegistry.ContainerRegistryConfig,Farmer.ContainerRegistry.Sku)">
+<summary>
+ Sets the name of the SKU/Tier for the Container Registry instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerRegistry.ContainerRegistryBuilder.Name(Farmer.Builders.ContainerRegistry.ContainerRegistryConfig,System.String)">
+<summary>
+ Sets the name of the Azure Container Registry instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ContainerRegistry.ContainerRegistryBuilder.EnableAdminUser(Farmer.Builders.ContainerRegistry.ContainerRegistryConfig)">
+<summary>
+ Enables the admin user on the Azure Container Registry.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusBuilder.Sku(Farmer.Builders.ServiceBus.ServiceBusConfig,Farmer.ServiceBus.Sku)">
+<summary>
+ The SKU of the namespace.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusBuilder.NamespaceName(Farmer.Builders.ServiceBus.ServiceBusConfig,System.String)">
+<summary>
+ The name of the namespace that holds the queue.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusBuilder.DependsOn(Farmer.Builders.ServiceBus.ServiceBusConfig,Farmer.IBuilder)">
+<summary>
+ Sets a dependency for the web app.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusTopicBuilder.Name(Farmer.Builders.ServiceBus.ServiceBusTopicConfig,System.String)">
+<summary>
+ The name of the queue.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusTopicBuilder.MessageTtl(Farmer.Builders.ServiceBus.ServiceBusTopicConfig,System.Int32)">
+<summary>
+ The default time-to-live for messages in days. If not specified, the maximum TTL will be set for the SKU.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusTopicBuilder.MessageTtl(Farmer.Builders.ServiceBus.ServiceBusTopicConfig,System.String)">
+<summary>
+ The default time-to-live for messages in a timespan string (e.g. &apos;00:05:00&apos;). If not specified, the maximum TTL will be set for the SKU.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusTopicBuilder.EnablePartition(Farmer.Builders.ServiceBus.ServiceBusTopicConfig)">
+<summary>
+ Enables partition support on the queue.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusTopicBuilder.DuplicateDetection(Farmer.Builders.ServiceBus.ServiceBusTopicConfig,System.Int32)">
+<summary>
+ Whether to enable duplicate detection, and if so, how long to check for.ServiceBusQueueConfig
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusSubscriptionBuilder.Session(Farmer.Builders.ServiceBus.ServiceBusSubscriptionConfig)">
+<summary>
+ Whether to enable duplicate detection, and if so, how long to check for.ServiceBusQueueConfig
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusSubscriptionBuilder.Name(Farmer.Builders.ServiceBus.ServiceBusSubscriptionConfig,System.String)">
+<summary>
+ The name of the queue.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusSubscriptionBuilder.MaxDeliveryCount(Farmer.Builders.ServiceBus.ServiceBusSubscriptionConfig,System.Int32)">
+<summary>
+ Enables session support.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusSubscriptionBuilder.LockDurationMinutes(Farmer.Builders.ServiceBus.ServiceBusSubscriptionConfig,System.Int32)">
+<summary>
+ The length of time that a lock can be held on a message.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusSubscriptionBuilder.DuplicateDetection(Farmer.Builders.ServiceBus.ServiceBusSubscriptionConfig,System.Int32)">
+<summary>
+ Whether to enable duplicate detection, and if so, how long to check for.ServiceBusQueueConfig
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusSubscriptionBuilder.DeadLetteringOnMessageExpiration(Farmer.Builders.ServiceBus.ServiceBusSubscriptionConfig)">
+<summary>
+ Enables dead lettering of messages that expire.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusSubscriptionBuilder.AddFilters(Farmer.Builders.ServiceBus.ServiceBusSubscriptionConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.ServiceBus.Rule})">
+<summary>
+ Adds filtering rules for a subscription
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusSubscriptionBuilder.AddFilter(Farmer.Builders.ServiceBus.ServiceBusSubscriptionConfig,System.String,System.String)">
+<summary>
+ Adds a sql filtering rule for a subscription
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusSubscriptionBuilder.AddCorrelationFilter(Farmer.Builders.ServiceBus.ServiceBusSubscriptionConfig,System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.String}})">
+<summary>
+ Adds a correlation filtering rule for a subscription
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusQueueBuilder.Session(Farmer.Builders.ServiceBus.ServiceBusQueueConfig)">
+<summary>
+ Whether to enable duplicate detection, and if so, how long to check for.ServiceBusQueueConfig
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusQueueBuilder.Name(Farmer.Builders.ServiceBus.ServiceBusQueueConfig,System.String)">
+<summary>
+ The name of the queue.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusQueueBuilder.MessageTtl(Farmer.Builders.ServiceBus.ServiceBusQueueConfig,System.Int32)">
+<summary>
+ The default time-to-live for messages in days. If not specified, the maximum TTL will be set for the SKU.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusQueueBuilder.MessageTtl(Farmer.Builders.ServiceBus.ServiceBusQueueConfig,System.String)">
+<summary>
+ The default time-to-live for messages in a timespan string (e.g. &apos;00:05:00&apos;). If not specified, the maximum TTL will be set for the SKU.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusQueueBuilder.MaxDeliveryCount(Farmer.Builders.ServiceBus.ServiceBusQueueConfig,System.Int32)">
+<summary>
+ Enables session support.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusQueueBuilder.LockDurationMinutes(Farmer.Builders.ServiceBus.ServiceBusQueueConfig,System.Int32)">
+<summary>
+ The length of time that a lock can be held on a message.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusQueueBuilder.EnablePartition(Farmer.Builders.ServiceBus.ServiceBusQueueConfig)">
+<summary>
+ Enables partition support on the queue.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusQueueBuilder.DuplicateDetection(Farmer.Builders.ServiceBus.ServiceBusQueueConfig,System.Int32)">
+<summary>
+ The maximum number of times a message can be delivered before dead lettering.
+</summary>
+</member>
+<member name="M:Farmer.Builders.ServiceBus.ServiceBusQueueBuilder.DeadLetteringOnMessageExpiration(Farmer.Builders.ServiceBus.ServiceBusQueueConfig)">
+<summary>
+ Enables dead lettering of messages that expire.
+</summary>
+</member>
+<member name="M:Farmer.Builders.IotHub.IotHubBuilder.Sku(Farmer.Builders.IotHub.IotHubConfig,Farmer.IotHub.Sku)">
+<summary>
+ Sets the name of the SKU/Tier for the IOT Hub instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.IotHub.IotHubBuilder.RetentionDays(Farmer.Builders.IotHub.IotHubConfig,System.Int32)">
+<summary>
+ Sets the name of the SKU/Tier for the IOT Hub instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.IotHub.IotHubBuilder.PartitionCount(Farmer.Builders.IotHub.IotHubConfig,System.Int32)">
+<summary>
+ Sets the name of the SKU/Tier for the IOT Hub instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.IotHub.IotHubBuilder.Name(Farmer.Builders.IotHub.IotHubConfig,System.String)">
+<summary>
+ Sets the name of the IOT Hub instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.IotHub.IotHubBuilder.DeviceProvisioning(Farmer.Builders.IotHub.IotHubConfig)">
+<summary>
+ Sets the name of the SKU/Tier for the IOT Hub instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.IotHub.IotHubBuilder.Capacity(Farmer.Builders.IotHub.IotHubConfig,System.Int32)">
+<summary>
+ Sets the name of the capacity for the IOT Hub instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Maps.MapsBuilder.Sku(Farmer.Builders.Maps.MapsConfig,Farmer.Maps.Sku)">
+<summary>
+ Sets the SKU of the Azure Maps instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.Maps.MapsBuilder.Name(Farmer.Builders.Maps.MapsConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the Azure Maps instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SignalR.SignalRBuilder.Sku(Farmer.Builders.SignalR.SignalRConfig,Farmer.SignalR.Sku)">
+<summary>
+ Sets the SKU of the Azure SignalR instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SignalR.SignalRBuilder.Name(Farmer.Builders.SignalR.SignalRConfig,Farmer.ResourceName)">
+<summary>
+ Sets the name of the Azure SignalR instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SignalR.SignalRBuilder.Capacity(Farmer.Builders.SignalR.SignalRConfig,System.Int32)">
+<summary>
+ Sets the capacity of the Azure SignalR instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.SignalR.SignalRBuilder.AllowedOrigins(Farmer.Builders.SignalR.SignalRConfig,Microsoft.FSharp.Collections.FSharpList{System.String})">
+<summary>
+ Sets the allowed origins of the Azure SignalR instance.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.ConnectionBuilder.VNetGateway2(Farmer.Builders.VirtualNetworkGateway.ConnectionConfig,Microsoft.FSharp.Core.FSharpOption{Farmer.ResourceName})">
+<summary>
+ Sets the first vnet gateway
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.ConnectionBuilder.VNetGateway1(Farmer.Builders.VirtualNetworkGateway.ConnectionConfig,Farmer.ResourceName)">
+<summary>
+ Sets the first vnet gateway
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.ConnectionBuilder.PeerId(Farmer.Builders.VirtualNetworkGateway.ConnectionConfig,System.String)">
+<summary>
+ Sets the first vnet gateway
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.ConnectionBuilder.Name(Farmer.Builders.VirtualNetworkGateway.ConnectionConfig,System.String)">
+<summary>
+ Sets the name of the connection
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.ConnectionBuilder.LocalGateway(Farmer.Builders.VirtualNetworkGateway.ConnectionConfig,Microsoft.FSharp.Core.FSharpOption{Farmer.ResourceName})">
+<summary>
+ Sets the first vnet gateway
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.ConnectionBuilder.Authorization(Farmer.Builders.VirtualNetworkGateway.ConnectionConfig,System.String)">
+<summary>
+ Sets the first vnet gateway
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VnetGatewayBuilder.VpnType(Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig,Farmer.VirtualNetworkGateway.VpnGatewaySku)">
+<summary>
+ Sets the VPN gateway type with a VPN SKU.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VnetGatewayBuilder.VpnGatewaySku(Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig,Farmer.VirtualNetworkGateway.VpnType)">
+<summary>
+ Sets the VPN type with - RouteBased or PolicyBased.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VnetGatewayBuilder.VNet(Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig,System.String)">
+<summary>
+ Sets the virtual network where this gateway is attached.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VnetGatewayBuilder.SetVpnClient(Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig,Farmer.Builders.VirtualNetworkGateway.VpnClientConfig)">
+<summary>
+ Sets the VPN Client configuration.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VnetGatewayBuilder.Name(Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig,System.String)">
+<summary>
+ Sets the name of the gateway
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VnetGatewayBuilder.GatewayIpConfig(Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig,Farmer.VirtualNetworkGateway.PrivateIpAllocationMethod,Farmer.Arm.Network.PublicIpAddress)">
+<summary>
+ Sets the default gateway IP config.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VnetGatewayBuilder.ErGatewaySku(Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig,Farmer.VirtualNetworkGateway.ErGatewaySku)">
+<summary>
+ Sets the ExpressRoute gateway type with an ExpressRoute SKU.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VnetGatewayBuilder.DisableBgp(Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig)">
+<summary>
+ Disable BGP (enabled by default).
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VnetGatewayBuilder.ActiveActiveIpConfig(Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig,Farmer.VirtualNetworkGateway.PrivateIpAllocationMethod,System.String)">
+<summary>
+ Sets the default gateway IP config and enables active-active if not already.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VpnClientConfigurationBuilder.SetProtocols(Farmer.Builders.VirtualNetworkGateway.VpnClientConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.Arm.Network.VPNClientProtocol})">
+<summary>
+ Sets the protocols for the client VPN connexion. Default is SSTP
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VpnClientConfigurationBuilder.AddRootCertificate(Farmer.Builders.VirtualNetworkGateway.VpnClientConfig,System.String,System.String)">
+<summary>
+ Adds the public root certificate to authenticate client VPN connexions
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VpnClientConfigurationBuilder.AddRevokedCertificate(Farmer.Builders.VirtualNetworkGateway.VpnClientConfig,System.String,System.String)">
+<summary>
+ Adds the thumbprint of a revoked client certificate.
+</summary>
+</member>
+<member name="M:Farmer.Builders.VirtualNetworkGateway.VpnClientConfigurationBuilder.AddAddressPool(Farmer.Builders.VirtualNetworkGateway.VpnClientConfig,Farmer.IPAddressCidr)">
+<summary>
+ Adds an address pool which represents Address space for P2S VpnClient
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.EnableBgp">
+<summary>
+ Enable Border Gateway Protocol on this gateway
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.VpnClientConfiguration">
+<summary>
+ VPN client configuration for Point to Site connexion
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.VpnType">
+<summary>
+ VPN type - RouteBased or PolicyBased
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.GatewayType">
+<summary>
+ Gateway type - ExpressRoute or VPN
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.VirtualNetwork">
+<summary>
+ Virtual network where the gateway will be attached
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.ActiveActivePublicIpName">
+<summary>
+ Public IP for the gateway&apos;s secondary interface if Active-Active
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.ActiveActivePrivateIpAllocationMethod">
+<summary>
+ Private IP allocation method for the gateway&apos;s secondary interface if Active-Active
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.GatewayPublicIpName">
+<summary>
+ Public IP for the gateway&apos;s interface
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.GatewayPrivateIpAllocationMethod">
+<summary>
+ Private IP allocation method for the gateway&apos;s primary interface
+</summary>
+</member>
+<member name="P:Farmer.Builders.VirtualNetworkGateway.VNetGatewayConfig.Name">
+<summary>
+ The name of the gateway
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.NsgBuilder.Name(Farmer.Builders.NetworkSecurityGroup.NsgConfig,System.String)">
+<summary>
+ Sets the name of the network security group
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.NsgBuilder.AddSecurityRules(Farmer.Builders.NetworkSecurityGroup.NsgConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig})">
+<summary>
+ Adds rules to this NSG.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.Services(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,Microsoft.FSharp.Collections.FSharpList{Farmer.NetworkSecurity.NetworkService})">
+<summary>
+ Sets the service or services protected by this rule.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.Name(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,System.String)">
+<summary>
+ Sets the name of the security rule
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.Description(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,System.String)">
+<summary>
+ Sets the description of the security rule
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.Deny(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig)">
+<summary>
+ Sets the rule to deny this traffic.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.Allow(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig)">
+<summary>
+ Sets the rule to allow this traffic (default value).
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddSourceTag(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,Farmer.NetworkSecurity.NetworkProtocol,System.String)">
+<summary>
+ Sets the rule to match on a tagged source endpoint, such as &apos;Internet&apos;.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddSourceNetwork(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,Farmer.NetworkSecurity.NetworkProtocol,System.String)">
+<summary>
+ Sets the rule to match on a source network.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddSourceAny(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,Farmer.NetworkSecurity.NetworkProtocol)">
+<summary>
+ Sets the rule to match on any source endpoint.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddSourceAddress(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,Farmer.NetworkSecurity.NetworkProtocol,System.String)">
+<summary>
+ Sets the rule to match on a source address.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddSource(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,System.Tuple{Farmer.NetworkSecurity.NetworkProtocol,Farmer.NetworkSecurity.Endpoint,Farmer.NetworkSecurity.Port})">
+<summary>
+ Sets the source endpoint that is matched in this rule
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddDestinationTag(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,System.String)">
+<summary>
+ Sets the rule to match on a tagged destination endpoint, such as &apos;Internet&apos;.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddDestinationNetwork(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,System.String)">
+<summary>
+ Sets the rule to match on a destination network.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddDestinationAny(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig)">
+<summary>
+ Sets the rule to match on any destination endpoint.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddDestinationAddress(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,System.String)">
+<summary>
+ Sets the rule to match on a destination address.
+</summary>
+</member>
+<member name="M:Farmer.Builders.NetworkSecurityGroup.SecurityRuleBuilder.AddDestination(Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig,Farmer.NetworkSecurity.Endpoint)">
+<summary>
+ Sets the destination endpoint that is matched in this rule
+</summary>
+</member>
+<member name="T:Farmer.Builders.NetworkSecurityGroup.SecurityRuleConfig">
+<summary>
+ Network access policy
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.VirtualNetworkName(Farmer.Builders.Databricks.WorkspaceConfig)">
+<summary>
+Set use Bring Your Own VNet networking model
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.Tags(Farmer.Builders.DataLake.DataLakeConfig,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String}})">
+<summary>
+Add list of tags to workspace resource
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.Tag(Farmer.Builders.DataLake.DataLakeConfig,System.String,System.String)">
+<summary>
+Add single tag to workspace resource
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.PricingTier(Farmer.Builders.Databricks.WorkspaceConfig,Farmer.Databricks.Sku)">
+<summary>
+Set workspace pricing tier
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.PrepareEncryption(Farmer.Builders.Databricks.WorkspaceConfig)">
+<summary>
+Set encryption preparation
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.Name(Farmer.Builders.Databricks.WorkspaceConfig,System.String)">
+<summary>
+Name of the workspace
+Azure managed resource group name
+Workspace pricing tier
+Should public IPs be used
+Prepare workspace for encryption
+Encryption configuration
+Should use Bring Your Own VNet networking model
+Bring Your Own VNet configuration
+List of tags
+Set workspace name  
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.ManagedResourceGroupId(Farmer.Builders.Databricks.WorkspaceConfig,System.String)">
+<summary>
+Set managed resource group
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.KeyVersion(Farmer.Builders.Databricks.WorkspaceConfig,System.String)">
+<summary>
+Set encryption key version
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.KeyVaultUri(Farmer.Builders.Databricks.WorkspaceConfig,System.String)">
+<summary>
+Set encryption key vault uri
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.KeyName(Farmer.Builders.Databricks.WorkspaceConfig,System.String)">
+<summary>
+Set encryption key name
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.DisablePublicIp(Farmer.Builders.Databricks.WorkspaceConfig)">
+<summary>
+Set public IP enablement
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.ByovVnet(Farmer.Builders.Databricks.WorkspaceConfig,System.String)">
+<summary>
+Set existing vnet
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.ByovPublicSubnet(Farmer.Builders.Databricks.WorkspaceConfig,System.String)">
+<summary>
+Set existing public subnet
+</summary>
+</member>
+<member name="M:Farmer.Builders.Databricks.WorkspaceBuilder.ByovPrivateSubnet(Farmer.Builders.Databricks.WorkspaceConfig,System.String)">
+<summary>
+Set existing private subnet
+</summary>
+</member>
+</members>
+</doc>

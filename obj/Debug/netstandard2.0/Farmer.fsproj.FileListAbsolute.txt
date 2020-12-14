@@ -1,0 +1,10 @@
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/bin/Debug/netstandard2.0/Farmer.deps.json
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/obj/Debug/netstandard2.0/Farmer.AssemblyInfoInputs.cache
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/obj/Debug/netstandard2.0/Farmer.AssemblyInfo.fs
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/obj/Debug/netstandard2.0/Farmer.fsprojAssemblyReference.cache
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/bin/Debug/netstandard2.0/Farmer.dll
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/bin/Debug/netstandard2.0/Farmer.pdb
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/bin/Debug/netstandard2.0/Farmer.xml
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/obj/Debug/netstandard2.0/Farmer.dll
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/obj/Debug/netstandard2.0/Farmer.xml
+/Users/cmarshall10450/projects/oss/farmer/src/Farmer/obj/Debug/netstandard2.0/Farmer.pdb
